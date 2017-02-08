@@ -1,0 +1,44 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,600);
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.navbar-static-bottom {
+	margin-bottom: 0;
+	text-align: center;
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.thumbnail {
+	min-height:300px;
+	border-radius: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	box-shadow: 5px 5px 5px hsla(0,0%,85%,.75);
+}
+
+.caption {
+	text-align: center;
+}
+
+.play {
+	width: 35%;
+	height: 35%;
+	margin-top: -100%;
+	opacity: 0.5;
+}
+
+td {
+	vertical-align: middle !important;
+}
+
+.alert span {
+	font-size: 25px;
+}
