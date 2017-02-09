@@ -11,6 +11,11 @@
 |
 */
 
+// Login Redirect Route...
+Route::get('login', function() {
+	return redirect('/');
+});
+
 // Home Routes...
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('watch', 'HomeController@watch')->name('watch');
