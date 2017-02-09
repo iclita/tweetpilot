@@ -79,7 +79,7 @@ class HomeController extends Controller
         $request_token['oauth_token'] = Redis::get('oauth_token');
         $request_token['oauth_token_secret'] = Redis::get('oauth_token_secret');
 
-        if (null !== $request->input('oauth_token') && $request_token['oauth_token'] !== $request->input('oauth_token')) {
+        if (null !== request('oauth_token') && $request_token['oauth_token'] !== request('oauth_token')) {
             // Abort! Something is wrong.
             dd('Wrong mother fucker!');
         }
