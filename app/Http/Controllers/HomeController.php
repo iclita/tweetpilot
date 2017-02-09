@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-	    if (request()->url() === env('ADMIN_URL')) {
+	    if (request()->url() === env('APP_URL')) {
 	    	return view('welcome');
 		}else{
 			return redirect()->route('watch');
@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function watch()
     {
-		if (request()->url() === env('ADMIN_URL').'/watch') {
+		if (request()->url() === env('APP_URL').'/watch') {
 	    	abort(404);
 		}
 
