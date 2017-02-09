@@ -54,7 +54,7 @@ class HomeController extends Controller
 
         $connection = new TwitterOAuth($website->app_key, $website->app_secret);
 
-        $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback')]);
+        $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback', $video->id)]);
 
         Redis::set('oauth_token', $request_token['oauth_token']);
         Redis::set('oauth_token_secret', $request_token['oauth_token_secret']);
@@ -71,7 +71,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function callbackVideo()
+    public function callbackVideo(Video $video)
     {
         $website = Website::findByUrl(request()->url());
 
@@ -90,6 +90,6 @@ class HomeController extends Controller
 
         $video_id = session()->pull('video_id');
 
-        dd($user_data, $video_id);
+        dd($user_data, $video_id, $video->id);
     }
 }

@@ -20,7 +20,7 @@ Route::get('login', function() {
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('watch', 'HomeController@watch')->name('watch');
 Route::get('video/{video}/show', 'HomeController@showVideo')->name('video.show');
-Route::get('video/callback', 'HomeController@callbackVideo')->name('video.callback');
+Route::get('video/{video}/callback', 'HomeController@callbackVideo')->name('video.callback');
 
 // Admin Routes...
 Route::group(['prefix' => env('ADMIN_ROUTE')], function() {
