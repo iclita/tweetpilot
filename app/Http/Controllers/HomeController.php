@@ -61,14 +61,13 @@ class HomeController extends Controller
 
         $oauth_url = $connection->url('oauth/authorize', ['oauth_token' => $request_token['oauth_token']]);
 
-        session()->put('video_id', $video->id);
-
         return redirect($oauth_url);
     }
 
     /**
      * Redirect the user to Youtube after obtaining its token.
      *
+     * @param App\Video $video
      * @return \Illuminate\Http\RedirectResponse
      */
     public function callbackVideo(Video $video)
@@ -88,8 +87,6 @@ class HomeController extends Controller
 
         $user_data = $connection->oauth('oauth/access_token', ['oauth_verifier' => request('oauth_verifier')]);
 
-        $video_id = session()->pull('video_id');
-
-        dd($user_data, $video_id, $video->id);
+        dd($user_data, $video->id);
     }
 }
