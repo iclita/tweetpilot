@@ -15,8 +15,8 @@
         @endif
         <div class="row">
             <div class="col-md-12">
-                <h4 style="float:left;"><strong>Affiliate Links</strong></h4>
-                <a style="float:right;" href="{{ route('links.create') }}" class="btn btn-success btn-sm">Create</a>
+                <h4 style="float:left;"><strong>Links</strong></h4>
+                <a style="float:right;" href="{{ route('links.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
                 @if ($links->count() > 0)
                     <table class="table table-responsive table-striped table-hover">
                         <thead>
@@ -35,8 +35,8 @@
                                 <td>{{ $link->description }}</td>
                                 <td><a href="{{ $link->url }}" target="_blank">{{ $link->url }}</a></td>
                                 <td><a class="btn btn-primary btn-sm"
-                                       href="{{ route('links.edit', ['id' => $link->id]) }}">Edit</a></td>
-                                <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('links.destroy', ['id' => $link->id]) }}">Delete</button></td>
+                                       href="{{ route('links.edit', ['id' => $link->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
+                                <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('links.destroy', ['id' => $link->id]) }}"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
                             </tr>
                         </tbody>
                         @endforeach

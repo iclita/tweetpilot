@@ -26,9 +26,9 @@
                     {{ Form::url('url', null, ['class'=>'form-control', 'id'=>'link-url', 'placeholder'=>'https://www.mystore.com?product_id=15', 'required']) }}
                 </div>
 
-                {{ Form::submit('Save', ['class'=>'btn btn-info']) }}
+                <button type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
 
-                <a style="float:right;" href="{{ route('links.index') }}" class="btn btn-warning">Cancel</a>
+                <a style="float:right;" href="{{ route('links.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

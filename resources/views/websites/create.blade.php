@@ -41,8 +41,8 @@
                     <input type="text" name="app_secret" class="form-control" id="website-app-secret" placeholder="Website app secret" required />
                 </div>
 
-                <button type="submit" class="btn btn-info">Save</button>
-                <a style="float:right;" href="{{ route('websites.index') }}" class="btn btn-warning">Cancel</a>
+                <button type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                <a style="float:right;" href="{{ route('websites.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

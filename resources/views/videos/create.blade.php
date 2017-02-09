@@ -26,8 +26,8 @@
                     <input type="text" name="slug" class="form-control" id="video-slug" placeholder="https://www.youtube.com/watch?v=(qROhsr7Opqk)" required />
                 </div>
 
-                <button type="submit" class="btn btn-info">Save</button>
-                <a style="float:right;" href="{{ route('videos.index') }}" class="btn btn-warning">Cancel</a>
+                <button type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                <a style="float:right;" href="{{ route('videos.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

@@ -26,9 +26,9 @@
                     {{ Form::text('slug', null, ['class'=>'form-control', 'id'=>'video-slug', 'placeholder'=>'https://www.youtube.com/watch?v=(qROhsr7Opqk)', 'required']) }}
                 </div>
 
-                {{ Form::submit('Save', ['class'=>'btn btn-info']) }}
+                <button type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
 
-                <a style="float:right;" href="{{ route('videos.index') }}" class="btn btn-warning">Cancel</a>
+                <a style="float:right;" href="{{ route('videos.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

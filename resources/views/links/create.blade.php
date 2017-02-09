@@ -26,8 +26,8 @@
                     <input type="url" name="url" class="form-control" id="link-url" placeholder="https://www.mystore.com?product_id=15" required />
                 </div>
 
-                <button type="submit" class="btn btn-info">Save</button>
-                <a style="float:right;" href="{{ route('links.index') }}" class="btn btn-warning">Cancel</a>
+                <button type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                <a style="float:right;" href="{{ route('links.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

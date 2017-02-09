@@ -41,9 +41,9 @@
                     {{ Form::text('app_secret', null, ['class'=>'form-control', 'id'=>'website-app-secret', 'placeholder'=>'Website app secret', 'required']) }}
                 </div>
 
-                {{ Form::submit('Save', ['class'=>'btn btn-info']) }}
+                <button type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
 
-                <a style="float:right;" href="{{ route('websites.index') }}" class="btn btn-warning">Cancel</a>
+                <a style="float:right;" href="{{ route('websites.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

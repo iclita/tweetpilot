@@ -52,10 +52,10 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="{{ (request()->is('*/home')) ? 'active' : '' }}"><a href="{{ route('home') }}">Dashboard</a></li>
-                        <li class="{{ (request()->is('*/websites')) ? 'active' : '' }}"><a href="{{ route('websites.index') }}">Websites</a></li>
-                        <li class="{{ (request()->is('*/videos')) ? 'active' : '' }}"><a href="{{ route('videos.index') }}">Videos</a></li>
-                        <li class="{{ (request()->is('*/links')) ? 'active' : '' }}"><a href="{{ route('links.index') }}">Affiliate Links</a></li>
+                        <li class="{{ (request()->is('*/home')) ? 'active' : '' }}"><a href="{{ route('home') }}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
+                        <li class="{{ (request()->is('*/websites')) ? 'active' : '' }}"><a href="{{ route('websites.index') }}"><i class="fa fa-globe" aria-hidden="true"></i> Websites</a></li>
+                        <li class="{{ (request()->is('*/videos')) ? 'active' : '' }}"><a href="{{ route('videos.index') }}"><i class="fa fa-video-camera" aria-hidden="true"></i> Videos</a></li>
+                        <li class="{{ (request()->is('*/links')) ? 'active' : '' }}"><a href="{{ route('links.index') }}"><i class="fa fa-link" aria-hidden="true"></i> Links</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -64,7 +64,7 @@
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
-                                Logout
+                                <i class="fa fa-power-off" aria-hidden="true"></i> Logout
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
                                 {{ csrf_field() }}
