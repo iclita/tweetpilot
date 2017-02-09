@@ -54,12 +54,14 @@ class HomeController extends Controller
 
         $connection = new TwitterOAuth($website->app_key, $website->app_secret);
 
-        $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback', $video->id)]);
+        $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback')]);
 
         Redis::set('oauth_token', $request_token['oauth_token']);
         Redis::set('oauth_token_secret', $request_token['oauth_token_secret']);
 
         $oauth_url = $connection->url('oauth/authorize', ['oauth_token' => $request_token['oauth_token']]);
+
+        session()->set('video_id', $video->id);
 
         return redirect($oauth_url);
     }
@@ -67,10 +69,9 @@ class HomeController extends Controller
     /**
      * Redirect the user to Youtube after obtaining its token.
      *
-     * @param App\Video $video
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function callbackVideo(Video $video)
+    public function callbackVideo()
     {
         $website = Website::findByUrl(request()->url());
 
@@ -87,6 +88,8 @@ class HomeController extends Controller
 
         $user_data = $connection->oauth('oauth/access_token', ['oauth_verifier' => request('oauth_verifier')]);
 
-        dd($user_data, $video->id);
+        $video_id = session()->pull('video_id');
+
+        dd($user_data, $video_id);
     }
 }
