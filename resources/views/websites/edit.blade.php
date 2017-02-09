@@ -32,12 +32,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="website-app-key">App key</label>
+                    <label for="website-app-key">App Key</label>
                     {{ Form::text('app_key', null, ['class'=>'form-control', 'id'=>'website-app-key', 'placeholder'=>'Website app key', 'required']) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="website-app-secret">App secret</label>
+                    <label for="website-app-secret">App Secret</label>
                     {{ Form::text('app_secret', null, ['class'=>'form-control', 'id'=>'website-app-secret', 'placeholder'=>'Website app secret', 'required']) }}
                 </div>
 

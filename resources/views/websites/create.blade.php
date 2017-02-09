@@ -32,12 +32,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="website-app-key">App key</label>
+                    <label for="website-app-key">App Key</label>
                     <input type="text" name="app_key" class="form-control" id="website-app-key" placeholder="Website app key" required />
                 </div>
 
                 <div class="form-group">
-                    <label for="website-app-secret">App secret</label>
+                    <label for="website-app-secret">App Secret</label>
                     <input type="text" name="app_secret" class="form-control" id="website-app-secret" placeholder="Website app secret" required />
                 </div>
 
