@@ -61,7 +61,7 @@ class HomeController extends Controller
 
         $oauth_url = $connection->url('oauth/authorize', ['oauth_token' => $request_token['oauth_token']]);
 
-        session()->set('video_id', $video->id);
+        session()->put('video_id', $video->id);
 
         return redirect($oauth_url);
     }
