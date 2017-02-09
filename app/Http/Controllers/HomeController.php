@@ -52,7 +52,7 @@ class HomeController extends Controller
     {
         $website = Website::findByUrl(request()->url());
 
-        $connection = TwitterOAuth($website->app_key, $website->app_secret);
+        $connection = new TwitterOAuth($website->app_key, $website->app_secret);
 
         $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback', $video->id)]);
 
