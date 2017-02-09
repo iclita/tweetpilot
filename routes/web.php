@@ -12,9 +12,9 @@
 */
 
 // Login Redirect Route...
-Route::get('login', function() {
-	return redirect('/');
-});
+// Route::get('login', function() {
+// 	return redirect('/');
+// });
 
 // Home Routes...
 Route::get('/', 'HomeController@index')->name('index');
