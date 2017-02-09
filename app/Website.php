@@ -76,4 +76,14 @@ class Website extends Model
     {
         return (bool) $this->campaign;
     }
+
+    /**
+     * A Website has many Tokens.
+     *
+     * @return HasMany
+     */
+    public function tokens()
+    {
+        return $this->hasMany(App\Token::class);
+    }
 }
