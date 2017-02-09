@@ -15,6 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        dd('here');
 	    if (env('APP_URL') === env('ADMIN_URL')) {
 	    	return view('welcome');
 		}else{
