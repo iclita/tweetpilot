@@ -54,7 +54,7 @@ class HomeController extends Controller
 
         $connection = new TwitterOAuth($website->app_key, $website->app_secret);
 
-        $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback')]);
+        $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => 'http://topfunny.site/video/callback']);
 
         Redis::set('oauth_token', $request_token['oauth_token']);
         Redis::set('oauth_token_secret', $request_token['oauth_token_secret']);
