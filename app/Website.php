@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Token;
 
 class Website extends Model
 {
@@ -80,6 +81,6 @@ class Website extends Model
      */
     public function tokens()
     {
-        return $this->hasMany(App\Token::class);
+        return $this->hasMany(Token::class);
     }
 }

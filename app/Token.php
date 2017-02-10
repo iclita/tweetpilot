@@ -59,6 +59,6 @@ class Token extends Model
      */
     public function website()
     {
-        return $this->belongsTo(App\Website::class);
+        return $this->belongsTo(Website::class);
     }
 }
