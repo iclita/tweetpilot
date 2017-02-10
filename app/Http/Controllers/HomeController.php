@@ -55,12 +55,12 @@ class HomeController extends Controller
             Redis::set('oauth_token', $request_token['oauth_token']);
             Redis::set('oauth_token_secret', $request_token['oauth_token_secret']);
             $oauth_url = $connection->url('oauth/authorize', ['oauth_token' => $request_token['oauth_token']]);
+            return redirect($oauth_url);
         }catch (\Exception $e) {
             $error_data = ['type' => 'token', 'message' => $e->getMessage()];
             DB::table('errors')->insert($error_data);
             return redirect()->route('watch')->with('message', 'Something went wrong! Please retry!');
         }
-        return redirect($oauth_url);
     }
 
     /**
