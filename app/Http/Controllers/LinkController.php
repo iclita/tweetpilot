@@ -15,7 +15,6 @@ class LinkController extends Controller
     public function index()
     {
         $links = Link::paginate(Link::PAGINATION);
-
         return view('links.index', compact('links'));
     }
 
@@ -38,7 +37,6 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         Link::create($request->all());
-
         return redirect()->route('links.index')->with('message', 'Link created succesfully!');
     }
 
@@ -74,7 +72,6 @@ class LinkController extends Controller
     public function update(Request $request, Link $link)
     {
         $link->update($request->all());
-
         return redirect()->route('links.index')->with('message', 'Link updated succesfully!');
     }
 
@@ -87,7 +84,6 @@ class LinkController extends Controller
     public function destroy(Link $link)
     {
         $link->delete();
-
         return redirect()->route('links.index')->with('message', 'Link deleted succesfully!');
     }
 }

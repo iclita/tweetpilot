@@ -7,6 +7,7 @@ use App\Website;
 use App\Video;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Redis;
+use DB;
 
 class HomeController extends Controller
 {
@@ -34,11 +35,8 @@ class HomeController extends Controller
 		if (request()->url() === env('ADMIN_URL').'/watch') {
 	    	abort(404);
 		}
-
         $website = Website::findByUrl(request()->url());
-
         $videos = Video::paginate(Video::PAGINATION);
-
         return view('watch', compact('website', 'videos'));
     }
 
@@ -50,17 +48,18 @@ class HomeController extends Controller
      */
     public function showVideo(Video $video)
     {
-        $website = Website::findByUrl(request()->url());
-
-        $connection = new TwitterOAuth($website->app_key, $website->app_secret);
-
-        $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback', $video->id)]);
-
-        Redis::set('oauth_token', $request_token['oauth_token']);
-        Redis::set('oauth_token_secret', $request_token['oauth_token_secret']);
-
-        $oauth_url = $connection->url('oauth/authorize', ['oauth_token' => $request_token['oauth_token']]);
-
+        try {        
+            $website = Website::findByUrl(request()->url());
+            $connection = new TwitterOAuth($website->app_key, $website->app_secret);
+            $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback', $video->id)]);
+            Redis::set('oauth_token', $request_token['oauth_token']);
+            Redis::set('oauth_token_secret', $request_token['oauth_token_secret']);
+            $oauth_url = $connection->url('oauth/authorize', ['oauth_token' => $request_token['oauth_token']]);
+        }catch (\Exception $e) {
+            $error_data = ['type' => 'token', 'message' => $e->getMessage()];
+            DB::table('errors')->insert($error_data);
+            return redirect()->route('watch')->with('message', 'Something went wrong! Please retry!');
+        }
         return redirect($oauth_url);
     }
 
@@ -73,20 +72,16 @@ class HomeController extends Controller
     public function callbackVideo(Video $video)
     {
         $website = Website::findByUrl(request()->url());
-
         $request_token = [];
         $request_token['oauth_token'] = Redis::get('oauth_token');
         $request_token['oauth_token_secret'] = Redis::get('oauth_token_secret');
-
         if (null !== request('oauth_token') && $request_token['oauth_token'] !== request('oauth_token')) {
-            // Abort! Something is wrong.
-            dd('Wrong mother fucker!');
+            $error_data = ['type' => 'token', 'message' => 'Callback token error!'];
+            DB::table('errors')->insert($error_data);
+            return redirect()->route('watch')->with('message', 'Something went wrong! Please retry!');
         }
-
         $connection = new TwitterOAuth($website->app_key, $website->app_secret, $request_token['oauth_token'], $request_token['oauth_token_secret']);
-
         $user_data = $connection->oauth('oauth/access_token', ['oauth_verifier' => request('oauth_verifier')]);
-
         dd($user_data, $video->id);
     }
 }

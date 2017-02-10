@@ -73,13 +73,12 @@
                     </ul>
                 </div>
                 @endif
-
             </div>
         </nav>
 
         @yield('content')
+        
     </div>
-
     <!-- Modals -->
     <div class="modal fade delete-modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">

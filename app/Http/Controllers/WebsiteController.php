@@ -15,7 +15,6 @@ class WebsiteController extends Controller
     public function index()
     {
         $websites = Website::all();
-
         return view('websites.index', compact('websites'));
     }
 
@@ -38,7 +37,6 @@ class WebsiteController extends Controller
     public function store(Request $request)
     {
         Website::create($request->all());
-
         return redirect()->route('websites.index')->with('message', 'Website created succesfully!');
     }
 
@@ -74,7 +72,6 @@ class WebsiteController extends Controller
     public function update(Request $request, Website $website)
     {
         $website->update($request->all());
-
         return redirect()->route('websites.index')->with('message', 'Website updated succesfully!');
     }
 
@@ -87,7 +84,6 @@ class WebsiteController extends Controller
     public function destroy(Website $website)
     {
         $website->delete();
-
         return redirect()->route('websites.index')->with('message', 'Website deleted succesfully!');
     }
 }

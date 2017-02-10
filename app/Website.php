@@ -36,16 +36,13 @@ class Website extends Model
 	public static function findByUrl($url, $scheme='http')
     {
         $url_components = parse_url($url);
-        
         $host = $url_components['host'];
-
         $website = static::where('url', $host)->first();
         // If we cannot find by host we retry by adding the scheme
         if (is_null($website)) {
             $host = $scheme . '://' . $host;
             $website = static::where('url', $host)->first();
         }
-        
         return $website;
     }
 
@@ -63,7 +60,6 @@ class Website extends Model
         if (substr($host, 0, strlen($scheme)) === $scheme) {
             $scheme = '';
         }
-
         return $scheme . $host;
     }
 

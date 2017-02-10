@@ -15,7 +15,6 @@ class VideoController extends Controller
     public function index()
     {
         $videos = Video::paginate(Video::PAGINATION);
-
         return view('videos.index', compact('videos'));
     }
 
@@ -38,7 +37,6 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         Video::create($request->all());
-
         return redirect()->route('videos.index')->with('message', 'Video created succesfully!');
     }
 
@@ -74,7 +72,6 @@ class VideoController extends Controller
     public function update(Request $request, Video $video)
     {
         $video->update($request->all());
-
         return redirect()->route('videos.index')->with('message', 'Video updated succesfully!');
     }
 
@@ -87,7 +84,6 @@ class VideoController extends Controller
     public function destroy(Video $video)
     {
         $video->delete();
-
         return redirect()->route('videos.index')->with('message', 'Video deleted succesfully!');
     }
 }
