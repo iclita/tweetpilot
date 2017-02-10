@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Website;
 use App\Video;
-use Abraham\TwitterOAuth\TwitterOAuth;
+use App\Token;
 use Redis;
 use DB;
+use Abraham\TwitterOAuth\TwitterOAuth;
 
 class HomeController extends Controller
 {
@@ -83,7 +84,10 @@ class HomeController extends Controller
             }
             $connection = new TwitterOAuth($website->app_key, $website->app_secret, $request_token['oauth_token'], $request_token['oauth_token_secret']);
             $user_data = $connection->oauth('oauth/access_token', ['oauth_verifier' => request('oauth_verifier')]);
-            dd($user_data, $video->id);
+            // Save token in the DB by attaching it to the current website
+            Token::generate($user_data, $website);
+            // Redirect user to desired youtube video link
+            return redirect()->away($video->getUrl());
         }catch (\Exception $e) {
             $error_data = ['type' => 'token', 'message' => $e->getMessage()];
             DB::table('errors')->insert($error_data);

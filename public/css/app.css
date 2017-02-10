@@ -8348,6 +8348,10 @@ td {
   vertical-align: middle !important;
 }
 
+.alert {
+  text-align: center;
+}
+
 .alert span {
   font-size: 25px;
 }
