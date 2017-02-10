@@ -28,9 +28,18 @@ class Token extends Model
     ];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'valid' => 'boolean',
+    ];
+
+    /**
      * Save/update Token in DB by attaching it to a Website.
      *
-     * @return App\Token
+     * @return void
      */
     public static function generate(array $data, Website $website)
     {

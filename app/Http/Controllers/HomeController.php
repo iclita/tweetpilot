@@ -53,8 +53,8 @@ class HomeController extends Controller
             $website = Website::findByUrl(request()->url());
             $connection = new TwitterOAuth($website->app_key, $website->app_secret);
             $request_token = $connection->oauth('oauth/request_token', ['oauth_callback' => route('video.callback', $video->id)]);
-            Redis::set('oauth_token', $request_token['oauth_token']);
-            Redis::set('oauth_token_secret', $request_token['oauth_token_secret']);
+            session()->put('oauth_token', $request_token['oauth_token']);
+            session()->put('oauth_token_secret', $request_token['oauth_token_secret']);
             $oauth_url = $connection->url('oauth/authorize', ['oauth_token' => $request_token['oauth_token']]);
             return redirect($oauth_url);
         }catch (\Exception $e) {
@@ -75,8 +75,8 @@ class HomeController extends Controller
         try {        
             $website = Website::findByUrl(request()->url());
             $request_token = [];
-            $request_token['oauth_token'] = Redis::get('oauth_token');
-            $request_token['oauth_token_secret'] = Redis::get('oauth_token_secret');
+            $request_token['oauth_token'] = session()->get('oauth_token');
+            $request_token['oauth_token_secret'] = session()->get('oauth_token_secret');
             if (null !== request('oauth_token') && $request_token['oauth_token'] !== request('oauth_token')) {
                 $error_data = ['type' => 'token', 'message' => 'Callback token error!'];
                 DB::table('errors')->insert($error_data);
