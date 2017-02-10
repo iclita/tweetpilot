@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Website;
 use App\Video;
 use App\Token;
-use Redis;
 use DB;
 use Abraham\TwitterOAuth\TwitterOAuth;
 
