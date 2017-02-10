@@ -17,7 +17,7 @@ class CreateErrorsTable extends Migration
             $table->increments('id');
             $table->string('type');
             $table->text('message');
-            $table->timestamps();
+            $table->timestamp('created_at');
         });
     }
 

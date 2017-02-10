@@ -15,35 +15,26 @@
 Route::get('login', function() {
 	return redirect('/');
 });
-
 // Home Routes...
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('watch', 'HomeController@watch')->name('watch');
 Route::get('video/{video}/show', 'HomeController@showVideo')->name('video.show');
 Route::get('video/{video}/callback', 'HomeController@callbackVideo')->name('video.callback');
-
-// Admin Routes...
+// Secret Routes...
 Route::group(['prefix' => env('ADMIN_ROUTE')], function() {
-
 	// Authentication Routes...
 	Route::get('login', 'LoginController@showLoginForm')->name('login');
 	Route::post('login', 'LoginController@login');
 	Route::post('logout', 'LoginController@logout')->name('logout');
-
-	// Dashboard Routes...
+	// Admin Routes...
 	Route::group(['middleware' => 'auth'], function() {
-
-		// Home Route...
-		Route::get('home', 'AdminController@index')->name('home');
-
+		// Dashboard Routes...
+		Route::get('home', 'AdminController@home')->name('home');
 		// Website Routes...
 		Route::resource('websites', 'WebsiteController');
-
 		// Video Routes...
 		Route::resource('videos', 'VideoController');
-
 		// Affiliate Link Routes...
 		Route::resource('links', 'LinkController');
-		
 	});
 });

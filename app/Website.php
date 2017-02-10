@@ -65,16 +65,6 @@ class Website extends Model
     }
 
     /**
-     * Check if this website has an associated campaign.
-     *
-     * @return bool
-     */
-    public function hasCampaign()
-    {
-        return (bool) $this->campaign;
-    }
-
-    /**
      * A Website has many Tokens.
      *
      * @return HasMany
