@@ -24,18 +24,60 @@ $('.delete-resource').click(function() {
 	$('.delete-modal').modal('show');
 });
 
-$('.delete-modal').on('hidden.bs.modal', function(){
+$('.delete-modal').on('hidden.bs.modal', function() {
 	$('#delete-form').attr('action', '');
 });
 
-$('.delete-button').click(function(){
+$('.delete-button').click(function() {
 	$('#delete-form').submit();
 });
 
-$('.thumbnail').mouseenter(function(){
+$('.thumbnail').mouseenter(function() {
 	$(this).find('.play').css('opacity', '1');
 });
 
-$('.thumbnail').mouseleave(function(){
+$('.thumbnail').mouseleave(function() {
 	$(this).find('.play').css('opacity', '0.5');
+});
+
+$('.start-campaign').click(function() {
+	let button_id = $(this).data('action');
+	let buttons = $('table').find("[data-action='" + button_id + "']");
+	buttons.filter('.campaign-action').hide();
+	buttons.filter('.stop-campaign').show();
+	buttons.filter('.pause-campaign').show();
+	let icons = $('table').find("[data-status='" + button_id + "']");
+	icons.filter('.campaign-status').hide();
+	icons.filter('.running-status-icon').show();
+});
+
+$('.stop-campaign').click(function() {
+	let button_id = $(this).data('action');
+	let buttons = $('table').find("[data-action='" + button_id + "']");
+	buttons.filter('.campaign-action').hide();
+	buttons.filter('.start-campaign').show();
+	let icons = $('table').find("[data-status='" + button_id + "']");
+	icons.filter('.campaign-status').hide();
+	icons.filter('.stopped-status-icon').show();
+});
+
+$('.pause-campaign').click(function() {
+	let button_id = $(this).data('action');
+	let buttons = $('table').find("[data-action='" + button_id + "']");
+	buttons.filter('.campaign-action').hide();
+	buttons.filter('.resume-campaign').show();
+	let icons = $('table').find("[data-status='" + button_id + "']");
+	icons.filter('.campaign-status').hide();
+	icons.filter('.paused-status-icon').show();
+});
+
+$('.resume-campaign').click(function() {
+	let button_id = $(this).data('action');
+	let buttons = $('table').find("[data-action='" + button_id + "']");
+	buttons.filter('.campaign-action').hide();
+	buttons.filter('.stop-campaign').show();
+	buttons.filter('.pause-campaign').show();
+	let icons = $('table').find("[data-status='" + button_id + "']");
+	icons.filter('.campaign-status').hide();
+	icons.filter('.running-status-icon').show();
 });

@@ -113,8 +113,7 @@ class CampaignController extends Controller
      */
     public function toggle(Campaign $campaign)
     {
-        $campaign->active = ! $campaign->active;
-        $campaign->save();
+        $campaign->toggleState();
         return back();
     }
 }

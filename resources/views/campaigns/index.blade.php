@@ -29,6 +29,7 @@
                             <th>ID</th>
                             <th>URL</th>
                             <th>Type</th>
+                            <th>Action</th>
                             <th>Status</th>
                             <th>Edit</th>
                             <th>Delete</th>
@@ -41,7 +42,8 @@
                                 <td>{{ $campaign->id }}</td>
                                 <td><a href="{{ $campaign->website->getFullUrl() }}" target="_blank">{{ $campaign->website->url }}</a></td>
                                 <td>{!! $campaign->showType() !!}</td>
-                                <td>Show status</td>
+                                <td>{!! $campaign->showAction() !!}</td>
+                                <td>{!! $campaign->showStatus() !!}</td>
                                 <td><a class="btn btn-primary btn-sm"
                                        href="{{ route('campaigns.edit', ['id'=>$campaign->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
                                 <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('campaigns.destroy', ['id'=>$campaign->id]) }}"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>

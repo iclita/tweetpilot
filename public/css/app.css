@@ -8344,8 +8344,10 @@ button.close {
   opacity: 0.5;
 }
 
-td {
+td,
+th {
   vertical-align: middle !important;
+  text-align: center;
 }
 
 .alert {

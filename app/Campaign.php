@@ -113,6 +113,17 @@ class Campaign extends Model
     }
 
     /**
+     * Change active state.
+     *
+     * @return void
+     */
+    public function toggleState()
+    {
+        $this->active = ! $this->active;
+        $this->save();
+    }
+
+    /**
      * Show a graphical display of the campaing's type.
      *
      * @return string
@@ -125,7 +136,7 @@ class Campaign extends Model
             return '<i style="font-size:20px;color:#E2264D;" class="fa fa-heart" aria-hidden="true"></i>';
         } elseif ($this->isRetweet()) {
             return '<i style="font-size:20px;color:#50D9A3;" class="fa fa-retweet" aria-hidden="true"></i>';
-        }else {
+        } else {
             throw new \Exception('Unknown campaign type!');
         }
     }
@@ -139,8 +150,59 @@ class Campaign extends Model
     {
         if ($this->active) {
             return '<i style="font-size:25px;color:#449D44;" class="fa fa-check" aria-hidden="true"></i>';
-        } else{
+        } else {
             return '<i style="font-size:25px;color:#C9302C;" class="fa fa-times" aria-hidden="true"></i>';
+        }
+    }
+
+    /**
+     * Show a graphical display of the campaing's action buttons.
+     *
+     * @return string
+     */
+    public function showAction()
+    {
+        if ($this->isStopped()) {
+            return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
+                    <button type='button' data-action={$this->id} class='btn btn-danger btn-sm stop-campaign campaign-action' style='display:none;'><i class='fa fa-stop' aria-hidden='true'></i> Stop</button>
+                    <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action' style='display:none;'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
+                    <button type='button' data-action={$this->id} class='btn btn-info btn-sm resume-campaign campaign-action' style='display:none;'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";
+        } elseif ($this->isRunning()) {
+            return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action' style='display:none;'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
+                    <button type='button' data-action={$this->id} class='btn btn-danger btn-sm stop-campaign campaign-action'><i class='fa fa-stop' aria-hidden='true'></i> Stop</button>
+                    <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
+                    <button type='button' data-action={$this->id} class='btn btn-info btn-sm resume-campaign campaign-action' style='display:none;'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";           
+        } elseif ($this->isPaused()) {
+            return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action' style='display:none;'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
+                    <button type='button' data-action={$this->id} class='btn btn-danger btn-sm stop-campaign campaign-action' style='display:none;'><i class='fa fa-stop' aria-hidden='true'></i> Stop</button>
+                    <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action' style='display:none;'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
+                    <button type='button' data-action={$this->id} class='btn btn-info btn-sm resume-campaign campaign-action'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";            
+        } else {
+            throw new \Exception('Unknown campaign status action!');
+        }
+    }
+
+    /**
+     * Show a graphical display of the campaing's current status.
+     *
+     * @return string
+     */
+    public function showStatus() 
+    {
+        if ($this->isStopped()) {
+            return "<i data-status={$this->id} style='font-size:20px;color:#C9302C;' class='fa fa-stop stopped-status-icon campaign-status' aria-hidden='true'></i>
+                    <i data-status={$this->id} style='display:none;font-size:20px;color:#449D44' class='fa fa-cog fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
+                    <i data-status={$this->id} style='display:none;font-size:20px;color:#2579A9;' class='fa fa-pause paused-status-icon campaign-status' aria-hidden='true'></i>";
+        } elseif ($this->isRunning()) {
+            return "<i data-status={$this->id} style='display:none;font-size:20px;color:#C9302C;' class='fa fa-stop stopped-status-icon campaign-status' aria-hidden='true'></i>
+                    <i data-status={$this->id} style='font-size:20px;color:#449D44' class='fa fa-cog fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
+                    <i data-status={$this->id} style='display:none;font-size:20px;color:#2579A9;' class='fa fa-pause paused-status-icon campaign-status' aria-hidden='true'></i>";
+        } elseif ($this->isPaused()) {
+            return "<i data-status={$this->id} style='display:none;font-size:20px;color:#C9302C;' class='fa fa-stop stopped-status-icon campaign-status' aria-hidden='true'></i>
+                    <i data-status={$this->id} style='display:none;font-size:20px;color:#449D44' class='fa fa-cog fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
+                    <i data-status={$this->id} style='font-size:20px;color:#2579A9;' class='fa fa-pause paused-status-icon campaign-status' aria-hidden='true'></i>";
+        } else {
+            throw new \Exception('Unknown campaign status!');
         }
     }
 

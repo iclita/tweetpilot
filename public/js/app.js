@@ -11200,28 +11200,70 @@ __webpack_require__(31);
 Vue.component('example', __webpack_require__(44));
 
 var app = new Vue({
-  el: '#app'
+	el: '#app'
 });
 
 $('.delete-resource').click(function () {
-  $('#delete-form').attr('action', $(this).data('url'));
-  $('.delete-modal').modal('show');
+	$('#delete-form').attr('action', $(this).data('url'));
+	$('.delete-modal').modal('show');
 });
 
 $('.delete-modal').on('hidden.bs.modal', function () {
-  $('#delete-form').attr('action', '');
+	$('#delete-form').attr('action', '');
 });
 
 $('.delete-button').click(function () {
-  $('#delete-form').submit();
+	$('#delete-form').submit();
 });
 
 $('.thumbnail').mouseenter(function () {
-  $(this).find('.play').css('opacity', '1');
+	$(this).find('.play').css('opacity', '1');
 });
 
 $('.thumbnail').mouseleave(function () {
-  $(this).find('.play').css('opacity', '0.5');
+	$(this).find('.play').css('opacity', '0.5');
+});
+
+$('.start-campaign').click(function () {
+	var button_id = $(this).data('action');
+	var buttons = $('table').find("[data-action='" + button_id + "']");
+	buttons.filter('.campaign-action').hide();
+	buttons.filter('.stop-campaign').show();
+	buttons.filter('.pause-campaign').show();
+	var icons = $('table').find("[data-status='" + button_id + "']");
+	icons.filter('.campaign-status').hide();
+	icons.filter('.running-status-icon').show();
+});
+
+$('.stop-campaign').click(function () {
+	var button_id = $(this).data('action');
+	var buttons = $('table').find("[data-action='" + button_id + "']");
+	buttons.filter('.campaign-action').hide();
+	buttons.filter('.start-campaign').show();
+	var icons = $('table').find("[data-status='" + button_id + "']");
+	icons.filter('.campaign-status').hide();
+	icons.filter('.stopped-status-icon').show();
+});
+
+$('.pause-campaign').click(function () {
+	var button_id = $(this).data('action');
+	var buttons = $('table').find("[data-action='" + button_id + "']");
+	buttons.filter('.campaign-action').hide();
+	buttons.filter('.resume-campaign').show();
+	var icons = $('table').find("[data-status='" + button_id + "']");
+	icons.filter('.campaign-status').hide();
+	icons.filter('.paused-status-icon').show();
+});
+
+$('.resume-campaign').click(function () {
+	var button_id = $(this).data('action');
+	var buttons = $('table').find("[data-action='" + button_id + "']");
+	buttons.filter('.campaign-action').hide();
+	buttons.filter('.stop-campaign').show();
+	buttons.filter('.pause-campaign').show();
+	var icons = $('table').find("[data-status='" + button_id + "']");
+	icons.filter('.campaign-status').hide();
+	icons.filter('.running-status-icon').show();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
