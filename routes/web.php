@@ -36,5 +36,8 @@ Route::group(['prefix' => env('ADMIN_ROUTE')], function() {
 		Route::resource('videos', 'VideoController');
 		// Affiliate Link Routes...
 		Route::resource('links', 'LinkController');
+		// Campaign Routes...
+		Route::resource('campaigns', 'CampaignController');
+		Route::get('campaigns/{campaign}/toggle', 'CampaignController@toggle')->name('campaigns.toggle');
 	});
 });

@@ -37,7 +37,7 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         Link::create($request->all());
-        return redirect()->route('links.index')->with('message', 'Link created succesfully!');
+        return redirect()->route('links.index')->with('success', 'Link created succesfully!');
     }
 
     /**
@@ -72,7 +72,7 @@ class LinkController extends Controller
     public function update(Request $request, Link $link)
     {
         $link->update($request->all());
-        return redirect()->route('links.index')->with('message', 'Link updated succesfully!');
+        return redirect()->route('links.index')->with('success', 'Link updated succesfully!');
     }
 
     /**
@@ -84,6 +84,6 @@ class LinkController extends Controller
     public function destroy(Link $link)
     {
         $link->delete();
-        return redirect()->route('links.index')->with('message', 'Link deleted succesfully!');
+        return redirect()->route('links.index')->with('success', 'Link deleted succesfully!');
     }
 }

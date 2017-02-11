@@ -37,7 +37,7 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         Video::create($request->all());
-        return redirect()->route('videos.index')->with('message', 'Video created succesfully!');
+        return redirect()->route('videos.index')->with('success', 'Video created succesfully!');
     }
 
     /**
@@ -72,7 +72,7 @@ class VideoController extends Controller
     public function update(Request $request, Video $video)
     {
         $video->update($request->all());
-        return redirect()->route('videos.index')->with('message', 'Video updated succesfully!');
+        return redirect()->route('videos.index')->with('success', 'Video updated succesfully!');
     }
 
     /**
@@ -84,6 +84,6 @@ class VideoController extends Controller
     public function destroy(Video $video)
     {
         $video->delete();
-        return redirect()->route('videos.index')->with('message', 'Video deleted succesfully!');
+        return redirect()->route('videos.index')->with('success', 'Video deleted succesfully!');
     }
 }

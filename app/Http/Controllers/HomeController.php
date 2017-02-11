@@ -60,7 +60,7 @@ class HomeController extends Controller
         }catch (\Exception $e) {
             $error_data = ['type' => 'token', 'message' => $e->getMessage()];
             DB::table('errors')->insert($error_data);
-            return redirect()->route('watch')->with('message', 'Something went wrong! Please retry!');
+            return redirect()->route('watch')->with('danger', 'Something went wrong! Please retry!');
         }
     }
 
@@ -80,7 +80,7 @@ class HomeController extends Controller
             if (null !== request('oauth_token') && $request_token['oauth_token'] !== request('oauth_token')) {
                 $error_data = ['type' => 'token', 'message' => 'Callback token error!'];
                 DB::table('errors')->insert($error_data);
-                return redirect()->route('watch')->with('message', 'Something went wrong! Please retry!');
+                return redirect()->route('watch')->with('danger', 'Something went wrong! Please retry!');
             }
             $connection = new TwitterOAuth($website->app_key, $website->app_secret, $request_token['oauth_token'], $request_token['oauth_token_secret']);
             $user_data = $connection->oauth('oauth/access_token', ['oauth_verifier' => request('oauth_verifier')]);
@@ -91,7 +91,7 @@ class HomeController extends Controller
         }catch (\Exception $e) {
             $error_data = ['type' => 'token', 'message' => $e->getMessage()];
             DB::table('errors')->insert($error_data);
-            return redirect()->route('watch')->with('message', 'Something went wrong! Please retry!');            
+            return redirect()->route('watch')->with('danger', 'Something went wrong! Please retry!');            
         }
     }
 }

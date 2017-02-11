@@ -6,10 +6,10 @@
 
 @section('content')
     <div class="container">
-        @if (session()->has('message'))
+        @if (session()->has('danger'))
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>{{ session()->get('message') }}</strong>
+                <strong>{{ session()->get('danger') }}</strong>
             </div>
         @endif
         <div class="row">

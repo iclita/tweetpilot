@@ -32029,7 +32029,7 @@ var Component = __webpack_require__(45)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Ahile/Code/Web/affilpilot/resources/assets/js/components/Example.vue"
+Component.options.__file = "/Users/Ahile/Code/Web/amapilot/resources/assets/js/components/Example.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32040,9 +32040,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3b379752", Component.options)
+    hotAPI.createRecord("data-v-5c07b87a", Component.options)
   } else {
-    hotAPI.reload("data-v-3b379752", Component.options)
+    hotAPI.reload("data-v-5c07b87a", Component.options)
   }
 })()}
 
@@ -32127,7 +32127,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3b379752", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-5c07b87a", module.exports)
   }
 }
 

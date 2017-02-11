@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Token;
+use App\Campaign;
+use DB;
 
 class Website extends Model
 {
@@ -65,6 +67,19 @@ class Website extends Model
     }
 
     /**
+     * Get available websites that were not already associated with campaigns.
+     *
+     * @return array
+     */
+    public static function getAvailable()
+    {
+        $associated_ids = DB::table('campaigns')->pluck('website_id');
+        return DB::table('websites')->whereNotIn('id', $associated_ids)
+                                    ->pluck('url', 'id')
+                                    ->toArray();
+    } 
+
+    /**
      * A Website has many Tokens.
      *
      * @return HasMany
@@ -72,5 +87,15 @@ class Website extends Model
     public function tokens()
     {
         return $this->hasMany(Token::class);
+    }
+
+    /**
+     * A Website has one Campaign.
+     *
+     * @return HasMany
+     */
+    public function campaign()
+    {
+        return $this->hasOne(Campaign::class);
     }
 }

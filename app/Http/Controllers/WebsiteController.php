@@ -37,7 +37,7 @@ class WebsiteController extends Controller
     public function store(Request $request)
     {
         Website::create($request->all());
-        return redirect()->route('websites.index')->with('message', 'Website created succesfully!');
+        return redirect()->route('websites.index')->with('success', 'Website created succesfully!');
     }
 
     /**
@@ -72,7 +72,7 @@ class WebsiteController extends Controller
     public function update(Request $request, Website $website)
     {
         $website->update($request->all());
-        return redirect()->route('websites.index')->with('message', 'Website updated succesfully!');
+        return redirect()->route('websites.index')->with('success', 'Website updated succesfully!');
     }
 
     /**
@@ -84,6 +84,6 @@ class WebsiteController extends Controller
     public function destroy(Website $website)
     {
         $website->delete();
-        return redirect()->route('websites.index')->with('message', 'Website deleted succesfully!');
+        return redirect()->route('websites.index')->with('success', 'Website deleted succesfully!');
     }
 }

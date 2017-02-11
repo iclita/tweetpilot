@@ -53,6 +53,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-left">
                         <li class="{{ (request()->is('*/home')) ? 'active' : '' }}"><a href="{{ route('home') }}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
+                        <li class="{{ (request()->is('*/campaigns')) ? 'active' : '' }}"><a href="{{ route('campaigns.index') }}"><i class="fa fa-paper-plane" aria-hidden="true"></i> Campaigns</a></li>
                         <li class="{{ (request()->is('*/websites')) ? 'active' : '' }}"><a href="{{ route('websites.index') }}"><i class="fa fa-globe" aria-hidden="true"></i> Websites</a></li>
                         <li class="{{ (request()->is('*/videos')) ? 'active' : '' }}"><a href="{{ route('videos.index') }}"><i class="fa fa-video-camera" aria-hidden="true"></i> Videos</a></li>
                         <li class="{{ (request()->is('*/links')) ? 'active' : '' }}"><a href="{{ route('links.index') }}"><i class="fa fa-link" aria-hidden="true"></i> Links</a></li>

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Website;
+use App\Post;
 
 class Token extends Model
 {
@@ -69,5 +70,15 @@ class Token extends Model
     public function website()
     {
         return $this->belongsTo(Website::class);
+    }
+
+    /**
+     * A Token has many Posts.
+     *
+     * @return HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }

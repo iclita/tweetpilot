@@ -5,12 +5,11 @@
 @stop
 
 @section('content')
-
     <div class="container">
-        @if (session()->has('message'))
+        @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>{{ session()->get('message') }}</strong>
+                <strong>{{ session()->get('success') }}</strong>
             </div>
         @endif
         <div class="row">
@@ -35,8 +34,8 @@
                                 <td>{{ $website->name }}</td>
                                 <td><a href="{{ $website->getFullUrl() }}" target="_blank">{{ $website->url }}</a></td>
                                 <td><a class="btn btn-primary btn-sm"
-                                       href="{{ route('websites.edit', ['id' => $website->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
-                                <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('websites.destroy', ['id' => $website->id]) }}"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
+                                       href="{{ route('websites.edit', ['id'=>$website->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
+                                <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('websites.destroy', ['id'=>$website->id]) }}"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
                             </tr>
                         </tbody>
                         @endforeach
@@ -47,5 +46,4 @@
             </div>
         </div>
     </div>
-
 @stop
