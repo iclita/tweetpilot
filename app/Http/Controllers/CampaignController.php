@@ -128,4 +128,16 @@ class CampaignController extends Controller
         $campaign->start();
         return ['id' => $campaign->id];
     }
+
+    /**
+     * Stop campaign.
+     *
+     * @param  \App\Campaign  $campaign
+     * @return array|json
+     */
+    public function stop(Campaign $campaign)
+    {
+        $campaign->stop();
+        return ['id' => $campaign->id];
+    }
 }

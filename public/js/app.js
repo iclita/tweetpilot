@@ -11227,51 +11227,67 @@ $('.thumbnail').mouseleave(function () {
 $('.start-campaign').click(function () {
 	var campaign_id = $(this).data('action');
 	var url = '/' + admin_route + '/campaigns/' + campaign_id + '/start';
-
 	axios.get(url).then(function (response) {
-		console.log(response.data.id);
+		var campaign_id = response.data.id;
+		var buttons = $('table').find("[data-action='" + campaign_id + "']");
+		buttons.filter('.campaign-action').hide();
+		buttons.filter('.stop-campaign').show();
+		buttons.filter('.pause-campaign').show();
+		var icons = $('table').find("[data-status='" + campaign_id + "']");
+		icons.filter('.campaign-status').hide();
+		icons.filter('.running-status-icon').show();
 	}).catch(function (error) {
 		return console.log(error);
 	});
-
-	var buttons = $('table').find("[data-action='" + campaign_id + "']");
-	buttons.filter('.campaign-action').hide();
-	buttons.filter('.stop-campaign').show();
-	buttons.filter('.pause-campaign').show();
-	var icons = $('table').find("[data-status='" + campaign_id + "']");
-	icons.filter('.campaign-status').hide();
-	icons.filter('.running-status-icon').show();
 });
 
 $('.stop-campaign').click(function () {
 	var campaign_id = $(this).data('action');
-	var buttons = $('table').find("[data-action='" + campaign_id + "']");
-	buttons.filter('.campaign-action').hide();
-	buttons.filter('.start-campaign').show();
-	var icons = $('table').find("[data-status='" + campaign_id + "']");
-	icons.filter('.campaign-status').hide();
-	icons.filter('.stopped-status-icon').show();
+	var url = '/' + admin_route + '/campaigns/' + campaign_id + '/stop';
+	axios.get(url).then(function (response) {
+		var campaign_id = response.data.id;
+		var buttons = $('table').find("[data-action='" + campaign_id + "']");
+		buttons.filter('.campaign-action').hide();
+		buttons.filter('.start-campaign').show();
+		var icons = $('table').find("[data-status='" + campaign_id + "']");
+		icons.filter('.campaign-status').hide();
+		icons.filter('.stopped-status-icon').show();
+	}).catch(function (error) {
+		return console.log(error);
+	});
 });
 
 $('.pause-campaign').click(function () {
 	var campaign_id = $(this).data('action');
-	var buttons = $('table').find("[data-action='" + campaign_id + "']");
-	buttons.filter('.campaign-action').hide();
-	buttons.filter('.resume-campaign').show();
-	var icons = $('table').find("[data-status='" + campaign_id + "']");
-	icons.filter('.campaign-status').hide();
-	icons.filter('.paused-status-icon').show();
+	var url = '/' + admin_route + '/campaigns/' + campaign_id + '/stop';
+	axios.get(url).then(function (response) {
+		var campaign_id = response.data.id;
+		var buttons = $('table').find("[data-action='" + campaign_id + "']");
+		buttons.filter('.campaign-action').hide();
+		buttons.filter('.resume-campaign').show();
+		var icons = $('table').find("[data-status='" + campaign_id + "']");
+		icons.filter('.campaign-status').hide();
+		icons.filter('.paused-status-icon').show();
+	}).catch(function (error) {
+		return console.log(error);
+	});
 });
 
 $('.resume-campaign').click(function () {
 	var campaign_id = $(this).data('action');
-	var buttons = $('table').find("[data-action='" + campaign_id + "']");
-	buttons.filter('.campaign-action').hide();
-	buttons.filter('.stop-campaign').show();
-	buttons.filter('.pause-campaign').show();
-	var icons = $('table').find("[data-status='" + campaign_id + "']");
-	icons.filter('.campaign-status').hide();
-	icons.filter('.running-status-icon').show();
+	var url = '/' + admin_route + '/campaigns/' + campaign_id + '/stop';
+	axios.get(url).then(function (response) {
+		var campaign_id = response.data.id;
+		var buttons = $('table').find("[data-action='" + campaign_id + "']");
+		buttons.filter('.campaign-action').hide();
+		buttons.filter('.stop-campaign').show();
+		buttons.filter('.pause-campaign').show();
+		var icons = $('table').find("[data-status='" + campaign_id + "']");
+		icons.filter('.campaign-status').hide();
+		icons.filter('.running-status-icon').show();
+	}).catch(function (error) {
+		return console.log(error);
+	});
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
