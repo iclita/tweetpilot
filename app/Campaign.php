@@ -80,8 +80,10 @@ class Campaign extends Model
         $num_tokens = $this->website->getValidTokensCount();
         // Get all the workers that have been synced with Forge
         $workers = $this->workers()->synced()->get();
+        // Get number of workers
+        $num_workers = $workers->count();
         // Abort if no workers detected for this campaign
-        if ($workers->count() === 0) {
+        if ($num_workers === 0) {
             throw new \Exception("Campaign {$this->id} has no workers!");
         }
         // Calculate how much load every worker should cary
