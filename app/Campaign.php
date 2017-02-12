@@ -39,6 +39,13 @@ class Campaign extends Model
     ];
 
     /**
+     * The number of workers associated with any campaign.
+     *
+     * @var int
+     */
+    const NUM_WORKERS = 1;
+
+    /**
      * Create a new campaign by associating it with a free(available) website.
      *
      * @param array $data
@@ -117,7 +124,7 @@ class Campaign extends Model
      *
      * @return void
      */
-    public function toggleState()
+    public function toggleActive()
     {
         $this->active = ! $this->active;
         $this->save();
@@ -237,6 +244,29 @@ class Campaign extends Model
     public function getDeleteQueue($index)
     {
         return "campaign-{$this->id}-delete-{$index}";
+    }
+
+    /**
+     * Start campaign. Go go go:)
+     *
+     * @return void
+     */
+    public function start()
+    {
+        $num_tokens = $this->website->getValidTokensCount();
+        $num_workers = static::NUM_WORKERS;
+        // Calculate how much load every worker should cary
+        $worker_load = ceil($num_tokens/$num_workers);
+        // Distribute the tasks uniformly based on worler load
+        for ($i=0; $i<$num_workers; $i++) {
+            $offset = $i * $worker_load;
+            $tokens = $this->website->tokens()->valid()
+                                              ->skip($offset)
+                                              ->take($worker_load)
+                                              ->get();
+            // Woker indexes start at 1 an not 0
+            $index = $i+1;            
+        }
     }
 
     /**

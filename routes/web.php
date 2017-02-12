@@ -38,6 +38,6 @@ Route::group(['prefix' => env('ADMIN_ROUTE')], function() {
 		Route::resource('links', 'LinkController');
 		// Campaign Routes...
 		Route::resource('campaigns', 'CampaignController');
-		Route::get('campaigns/{campaign}/toggle', 'CampaignController@toggle')->name('campaigns.toggle');
+		Route::get('campaigns/{campaign}/toggle-active', 'CampaignController@toggleActive')->name('campaigns.toggle.active');
 	});
 });

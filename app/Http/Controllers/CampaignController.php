@@ -111,9 +111,9 @@ class CampaignController extends Controller
      * @param  \App\Campaign  $campaign
      * @return \Illuminate\Http\Response
      */
-    public function toggle(Campaign $campaign)
+    public function toggleActive(Campaign $campaign)
     {
-        $campaign->toggleState();
+        $campaign->toggleActive();
         return back();
     }
 }

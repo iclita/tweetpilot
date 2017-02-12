@@ -47,7 +47,7 @@
                                 <td><a class="btn btn-primary btn-sm"
                                        href="{{ route('campaigns.edit', ['id'=>$campaign->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
                                 <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('campaigns.destroy', ['id'=>$campaign->id]) }}"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
-                                <td><a href="{{ route('campaigns.toggle', ['id'=>$campaign->id]) }}">{!! $campaign->displayActive() !!}</a></td>
+                                <td><a href="{{ route('campaigns.toggle.active', ['id'=>$campaign->id]) }}">{!! $campaign->displayActive() !!}</a></td>
                             </tr>
                         </tbody>
                         @endforeach
