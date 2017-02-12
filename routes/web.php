@@ -58,16 +58,16 @@ Route::get('test/{id}', function($id){
 	                if ($connection->getLastHttpCode() == 200) {
 	                    // Tweet posted succesfully
 	                    $data = ['post_id' => $statuses->id];
-	                    Post::make($data, $token);
+	                    \App\Post::make($data, $token);
 	                } else {
 	                    // Handle error case
 	                    $error_data = ['type' => 'post', 'message' => 'Post Error!'];
-	                    DB::table('errors')->insert($error_data);
+	                    \DB::table('errors')->insert($error_data);
 	                    // $token->invalidateIfNecessary($e->getMessage());
 	                }
 	            } catch(\Exception $e) {
 	                $error_data = ['type' => 'post', 'message' => $e->getMessage()];
-	                DB::table('errors')->insert($error_data);
+	                \DB::table('errors')->insert($error_data);
 	                // $token->invalidateIfNecessary($e->getMessage());
 	            }
 	            // Pause the processing if the campaign has been paused by the admin
