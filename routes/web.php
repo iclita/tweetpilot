@@ -11,6 +11,35 @@
 |
 */
 
+Route::get('test/{id}', function($id){
+
+		$campaign = \App\Campaign::find($id);
+        // Get total number of valid tokens
+        $num_tokens = $campaign->website->getValidTokensCount();
+        // Get all the workers that have been synced with Forge
+        $workers = $campaign->workers()->synced()->get();
+        // Get number of workers
+        $num_workers = $workers->count();
+        // Abort if no workers detected for this campaign
+        if ($num_workers === 0) {
+            throw new \Exception("Campaign {$campaign->id} has no workers!");
+        }
+        // Calculate how much load every worker should cary
+        $worker_load = ceil($num_tokens/$workers->count());
+        // Distribute the tasks uniformly based on worker load
+        for ($i=0; $i<$num_workers; $i++) {
+            $offset = $i * $worker_load;
+            $tokens = $campaign->website->tokens()->valid()
+                                              ->skip($offset)
+                                              ->take($worker_load)
+                                              ->get();
+            $worker = $workers[$i];
+            dump($worker, $tokens);
+            // $worker->process($tokens);          
+        }
+
+});
+
 // Login Redirect Route...
 Route::get('login', function() {
 	return redirect('/');
