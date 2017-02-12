@@ -140,4 +140,28 @@ class CampaignController extends Controller
         $campaign->stop();
         return ['id' => $campaign->id];
     }
+
+    /**
+     * Pause campaign.
+     *
+     * @param  \App\Campaign  $campaign
+     * @return array|json
+     */
+    public function pause(Campaign $campaign)
+    {
+        $campaign->pause();
+        return ['id' => $campaign->id];
+    }
+
+    /**
+     * Resume campaign.
+     *
+     * @param  \App\Campaign  $campaign
+     * @return array|json
+     */
+    public function resume(Campaign $campaign)
+    {
+        $campaign->resume();
+        return ['id' => $campaign->id];
+    }
 }

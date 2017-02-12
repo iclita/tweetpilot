@@ -66,7 +66,7 @@ class Campaign extends Model
     private function resetWorkers()
     {
         DB::table('workers')->where('campaign_id', $this->id)
-                            ->update(['resume_token' => 0]);
+                            ->update(['resume_token' => 0, 'has_finished' => true]);
     }
 
     /**

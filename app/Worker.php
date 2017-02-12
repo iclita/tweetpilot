@@ -23,6 +23,7 @@ class Worker extends Model
      */
     protected $fillable = [
     	'is_synced',
+    	'has_finished',
     	'resume_token',
     ];
 
@@ -93,6 +94,9 @@ class Worker extends Model
      */
     public function process(Collection $tokens)
     {
+    	// Update worker state and set it as running (not finished)
+    	$this->update(['has_finished' => false]);
+    	// Dispatch the job for background processing
     	$job = (new CampaignPublish($this, $tokens))->onQueue($this->getQueue());
     	dispatch($job);
     }

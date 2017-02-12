@@ -42,6 +42,8 @@ Route::group(['prefix' => env('ADMIN_ROUTE')], function() {
 		Route::get('campaigns/{campaign}/toggle-active', 'CampaignController@toggleActive')->name('campaigns.toggle.active');
 		Route::get('campaigns/{campaign}/start', 'CampaignController@start')->name('campaigns.start');
 		Route::get('campaigns/{campaign}/stop', 'CampaignController@stop')->name('campaigns.stop');
+		Route::get('campaigns/{campaign}/pause', 'CampaignController@pause')->name('campaigns.pause');
+		Route::get('campaigns/{campaign}/resume', 'CampaignController@resume')->name('campaigns.resume');
 		// Worker Routes...
 		Route::get('campaigns/{campaign}/workers', 'WorkerController@index')->name('workers.index');
 		Route::get('campaigns/{campaign}/workers/add', 'WorkerController@add')->name('workers.add');
