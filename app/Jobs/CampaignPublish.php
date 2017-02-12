@@ -56,9 +56,9 @@ class CampaignPublish implements ShouldQueue
                 return;
             }
             // Process the token only if it has not been processed before
-            if ($worker->processedToken($token)) {
-                continue;
-            }
+            // if ($worker->processedToken($token)) {
+            //     continue;
+            // }
             // Grab a Twitter connection
             $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
             try {

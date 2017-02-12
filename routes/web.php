@@ -34,7 +34,6 @@ Route::get('test/{id}', function($id){
                                               ->take($worker_load)
                                               ->get();
             $worker = $workers[$i];
-            dump($worker, $tokens);
             // $worker->process($tokens);          
         }
 
