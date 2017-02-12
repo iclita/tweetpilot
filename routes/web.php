@@ -43,9 +43,9 @@ Route::get('test/{id}', function($id){
 
 	        foreach ($tokens as $token) {
 	            // Stop the processing if the campaign has been stopped by the admin
-	            if ($campaign->isStopped()) {
-	                return;
-	            }
+	            // if ($campaign->isStopped()) {
+	            //     return;
+	            // }
 	            // Process the token only if it has not been processed before
 	            if ($worker->processedToken($token)) {
 	                continue;
