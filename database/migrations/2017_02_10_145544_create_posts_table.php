@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->integer('token_id')->unsigned();
             $table->foreign('token_id')->references('id')->on('tokens')->onDelete('cascade');
             $table->bigInteger('post_id')->unsigned()->index();
-            $table->timestamp('created_at');
+            $table->timestamps();
         });
     }
 
