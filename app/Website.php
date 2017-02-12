@@ -77,6 +77,16 @@ class Website extends Model
         return DB::table('websites')->whereNotIn('id', $associated_ids)
                                     ->pluck('url', 'id')
                                     ->toArray();
+    }
+
+    /**
+     * Get the total number of valid tokens that belong to this website.
+     *
+     * @return int
+     */
+    public function getValidTokensCount()
+    {
+        return $this->tokens()->valid()->count();
     } 
 
     /**

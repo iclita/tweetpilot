@@ -124,6 +124,17 @@ class Campaign extends Model
     }
 
     /**
+     * Change current status.
+     *
+     * @param string $status
+     * @return void
+     */
+    public function changeStatusTo($status)
+    {
+        $this->update(['status' => $status]);
+    }
+
+    /**
      * Show a graphical display of the campaing's type.
      *
      * @return string
@@ -204,6 +215,28 @@ class Campaign extends Model
         } else {
             throw new \Exception('Unknown campaign status!');
         }
+    }
+
+    /**
+     * Queue name where the campaign sends publish jobs.
+     *
+     * @param string $index
+     * @return string
+     */
+    public function getPublishQueue($index)
+    {
+        return "campaign-{$this->id}-publish-{$index}";
+    }
+
+    /**
+     * Queue name where the campaign sends delete jobs.
+     *
+     * @param string $index
+     * @return string
+     */
+    public function getDeleteQueue($index)
+    {
+        return "campaign-{$this->id}-delete-{$index}";
     }
 
     /**

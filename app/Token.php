@@ -60,6 +60,16 @@ class Token extends Model
             $new_token = new static($token_data);
             $website->tokens()->save($new_token);
         }
+    }
+
+    /**
+     * Get only valid tokens.
+     *
+     * @return QueryBuilder
+     */
+    public function scopeValid($query)
+    {
+        return $query->where('valid', true);
     }   
 
     /**
