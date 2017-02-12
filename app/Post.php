@@ -26,7 +26,7 @@ class Post extends Model
     public static function make(array $data, Token $token)
     {
         $post = new static($data);
-        $token->posts()->save($data);
+        $token->posts()->save($post);
     } 
 
     /**
