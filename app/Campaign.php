@@ -128,7 +128,7 @@ class Campaign extends Model
      *
      * @return string
      */
-    public function showType() 
+    public function displayType() 
     {
         if ($this->isPost()) {
             return '<i style="font-size:20px;color:#1DA1F2;" class="fa fa-twitter" aria-hidden="true"></i>';
@@ -146,7 +146,7 @@ class Campaign extends Model
      *
      * @return string
      */
-    public function showActive() 
+    public function displayActive() 
     {
         if ($this->active) {
             return '<i style="font-size:25px;color:#449D44;" class="fa fa-check" aria-hidden="true"></i>';
@@ -160,7 +160,7 @@ class Campaign extends Model
      *
      * @return string
      */
-    public function showAction()
+    public function displayAction()
     {
         if ($this->isStopped()) {
             return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
@@ -178,7 +178,7 @@ class Campaign extends Model
                     <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action' style='display:none;'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
                     <button type='button' data-action={$this->id} class='btn btn-info btn-sm resume-campaign campaign-action'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";            
         } else {
-            throw new \Exception('Unknown campaign status action!');
+            throw new \Exception('Unknown campaign action!');
         }
     }
 
@@ -187,19 +187,19 @@ class Campaign extends Model
      *
      * @return string
      */
-    public function showStatus() 
+    public function displayStatus() 
     {
         if ($this->isStopped()) {
             return "<i data-status={$this->id} style='font-size:20px;color:#C9302C;' class='fa fa-stop stopped-status-icon campaign-status' aria-hidden='true'></i>
-                    <i data-status={$this->id} style='display:none;font-size:20px;color:#449D44' class='fa fa-cog fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
+                    <i data-status={$this->id} style='display:none;font-size:20px;color:#449D44' class='fa fa-refresh fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
                     <i data-status={$this->id} style='display:none;font-size:20px;color:#2579A9;' class='fa fa-pause paused-status-icon campaign-status' aria-hidden='true'></i>";
         } elseif ($this->isRunning()) {
             return "<i data-status={$this->id} style='display:none;font-size:20px;color:#C9302C;' class='fa fa-stop stopped-status-icon campaign-status' aria-hidden='true'></i>
-                    <i data-status={$this->id} style='font-size:20px;color:#449D44' class='fa fa-cog fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
+                    <i data-status={$this->id} style='font-size:20px;color:#449D44' class='fa fa-refresh fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
                     <i data-status={$this->id} style='display:none;font-size:20px;color:#2579A9;' class='fa fa-pause paused-status-icon campaign-status' aria-hidden='true'></i>";
         } elseif ($this->isPaused()) {
             return "<i data-status={$this->id} style='display:none;font-size:20px;color:#C9302C;' class='fa fa-stop stopped-status-icon campaign-status' aria-hidden='true'></i>
-                    <i data-status={$this->id} style='display:none;font-size:20px;color:#449D44' class='fa fa-cog fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
+                    <i data-status={$this->id} style='display:none;font-size:20px;color:#449D44' class='fa fa-refresh fa-spin fa-3x fa-fw running-status-icon campaign-status'></i><span class='sr-only'>Loading...</span>
                     <i data-status={$this->id} style='font-size:20px;color:#2579A9;' class='fa fa-pause paused-status-icon campaign-status' aria-hidden='true'></i>";
         } else {
             throw new \Exception('Unknown campaign status!');

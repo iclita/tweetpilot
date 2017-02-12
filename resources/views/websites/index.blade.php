@@ -23,6 +23,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>URL</th>
+                            <th>Tokens</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -33,6 +34,7 @@
                                 <td>{{ $website->id }}</td>
                                 <td>{{ $website->name }}</td>
                                 <td><a href="{{ $website->getFullUrl() }}" target="_blank">{{ $website->url }}</a></td>
+                                <td>{{ $website->tokens()->count() }}</td>
                                 <td><a class="btn btn-primary btn-sm"
                                        href="{{ route('websites.edit', ['id'=>$website->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
                                 <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('websites.destroy', ['id'=>$website->id]) }}"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
