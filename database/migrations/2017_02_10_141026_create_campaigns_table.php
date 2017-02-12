@@ -22,7 +22,6 @@ class CreateCampaignsTable extends Migration
             $table->string('custom_message')->nullable(); // Custom message to post
             $table->string('custom_link')->nullable(); // Custom link to post
             $table->bigInteger('post_id')->unsigned()->nullable(); // Post ID for like/retweet
-            $table->integer('resume_token')->unsigned()->nullable(); // The token ID from where we should resume the campaign if it was paused
             $table->boolean('active')->default(1);
             $table->timestamps();
         });

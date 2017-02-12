@@ -18,6 +18,10 @@
                 <strong>{{ session()->get('warning') }}</strong>
             </div>
         @endif
+        <div style="display:none;" class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{ session()->get('warning') }}</strong>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <h4 style="float:left;"><strong>Campaigns</strong></h4>
@@ -31,6 +35,7 @@
                             <th>Type</th>
                             <th>Action</th>
                             <th>Status</th>
+                            <th>Workers</th>
                             <th>Edit</th>
                             <th>Delete</th>
                             <th>Active</th>
@@ -44,6 +49,7 @@
                                 <td>{!! $campaign->displayType() !!}</td>
                                 <td>{!! $campaign->displayAction() !!}</td>
                                 <td>{!! $campaign->displayStatus() !!}</td>
+                                <td><a class="btn btn-info btn-sm" target="_blank" href="{{ route('workers.index', ['id'=>$campaign->id]) }}"><i class="fa fa-eye" aria-hidden="true"></i> Show</a></td>
                                 <td><a class="btn btn-primary btn-sm"
                                        href="{{ route('campaigns.edit', ['id'=>$campaign->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
                                 <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('campaigns.destroy', ['id'=>$campaign->id]) }}"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>

@@ -109,6 +109,12 @@
     </nav>
     @endif
 
+    @if (Auth::check())
+    <script>
+        var admin_route = "{{ env('ADMIN_ROUTE') }}";
+    </script>
+    @endif
+
     <!-- Scripts -->
     <script src="/js/app.js"></script>
 </body>

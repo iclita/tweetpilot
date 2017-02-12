@@ -30,6 +30,7 @@ Route::group(['prefix' => env('ADMIN_ROUTE')], function() {
 	Route::group(['middleware' => 'auth'], function() {
 		// Dashboard Routes...
 		Route::get('home', 'AdminController@home')->name('home');
+		Route::post('change-settings', 'AdminController@changeSettings')->name('change.settings');
 		// Website Routes...
 		Route::resource('websites', 'WebsiteController');
 		// Video Routes...
@@ -39,5 +40,11 @@ Route::group(['prefix' => env('ADMIN_ROUTE')], function() {
 		// Campaign Routes...
 		Route::resource('campaigns', 'CampaignController');
 		Route::get('campaigns/{campaign}/toggle-active', 'CampaignController@toggleActive')->name('campaigns.toggle.active');
+		Route::get('campaigns/{campaign}/start', 'CampaignController@start')->name('campaigns.start');
+		// Worker Routes...
+		Route::get('campaigns/{campaign}/workers', 'WorkerController@index')->name('workers.index');
+		Route::get('campaigns/{campaign}/workers/add', 'WorkerController@add')->name('workers.add');
+		Route::delete('workers/{worker}/delete', 'WorkerController@delete')->name('workers.delete');
+		Route::get('workers/{worker}/toggle-synced', 'WorkerController@toggleSynced')->name('workers.toggle.synced');
 	});
 });

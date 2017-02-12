@@ -34,8 +34,8 @@
                     <label for="website-app-secret">App Secret</label>
                     <input type="text" name="app_secret" class="form-control" id="website-app-secret" placeholder="Website app secret" required />
                 </div>
-                <button style="float:right;" type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
-                <a style="float:left;" href="{{ route('websites.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
+                <button style="float:right;" type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                <a style="float:left;" href="{{ route('websites.index') }}" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

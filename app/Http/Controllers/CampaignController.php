@@ -116,4 +116,16 @@ class CampaignController extends Controller
         $campaign->toggleActive();
         return back();
     }
+
+    /**
+     * Start campaign.
+     *
+     * @param  \App\Campaign  $campaign
+     * @return array|json
+     */
+    public function start(Campaign $campaign)
+    {
+        $campaign->start();
+        return ['id' => $campaign->id];
+    }
 }

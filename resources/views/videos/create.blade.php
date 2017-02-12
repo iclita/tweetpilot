@@ -22,8 +22,8 @@
                     <label for="video-slug">Slug (Video ID)</label>
                     <input type="text" name="slug" class="form-control" id="video-slug" placeholder="https://www.youtube.com/watch?v=(qROhsr7Opqk)" required />
                 </div>
-                <button style="float:right;" type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
-                <a style="float:left;" href="{{ route('videos.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
+                <button style="float:right;" type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                <a style="float:left;" href="{{ route('videos.index') }}" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

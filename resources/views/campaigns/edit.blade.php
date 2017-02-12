@@ -39,8 +39,8 @@
                     <label for="campaign-post-id">Post ID</label>
                     {{ Form::text('post_id', null, ['class'=>'form-control', 'id'=>'campaign-post-id', 'placeholder'=>'829423543985307667']) }}
                 </div>
-                <button style="float:right;" type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
-                <a style="float:left;" href="{{ route('campaigns.index') }}" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
+                <button style="float:right;" type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                <a style="float:left;" href="{{ route('campaigns.index') }}" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
             </form>
         </div>
     </div>

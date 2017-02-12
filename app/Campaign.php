@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Website;
+use App\Worker;
+use Redis;
+use DB;
 
 class Campaign extends Model
 {
@@ -39,11 +42,63 @@ class Campaign extends Model
     ];
 
     /**
-     * The number of workers associated with any campaign.
+     * Generate all workers associated with this campaign.
      *
-     * @var int
+     * @return void
      */
-    const NUM_WORKERS = 1;
+    private function generateWorkers()
+    {
+        $num_workers = (bool)Redis::exists('num_workers') ? (int)Redis::get('num_workers') : 1;
+
+        $workers = [];
+        for ($i=1;$i<=$num_workers;$i++) {
+            $workers[] = new Worker();
+        }
+
+        $this->workers()->saveMany($workers);
+    }
+
+    /**
+     * Reset all workers associated with this campaign.
+     *
+     * @return void
+     */
+    private function resetWorkers()
+    {
+        DB::table('workers')->where('campaign_id', $this->id)
+                            ->update(['resume_token' => 0]);
+    }
+
+    /**
+     * Run all workers.
+     *
+     * @return void
+     */
+    private function runWorkers()
+    {
+        // Get total number of valid tokens
+        $num_tokens = $this->website->getValidTokensCount();
+        // Get all the workers that have been synced with Forge
+        $workers = $this->workers()->synced()->get();
+        // Abort if no workers detected for this campaign
+        if ($workers->count() === 0) {
+            throw new \Exception("Campaign {$this->id} has no workers!");
+        }
+        // Calculate how much load every worker should cary
+        $worker_load = ceil($num_tokens/$workers->count());
+        // Distribute the tasks uniformly based on worker load
+        for ($i=0; $i<$num_workers; $i++) {
+            $offset = $i * $worker_load;
+            $tokens = $this->website->tokens()->valid()
+                                              ->skip($offset)
+                                              ->take($worker_load)
+                                              ->get();
+            $worker = $workers[$i];
+            $worker->process($tokens);          
+        }
+        // Set campaign on running status
+        $this->changeStatusTo('running');
+    }
 
     /**
      * Create a new campaign by associating it with a free(available) website.
@@ -56,7 +111,9 @@ class Campaign extends Model
         $website_id = (int) $data['website'];
         $website = Website::find($website_id);
         $data = array_except($data, ['website']);
-        $website->campaign()->create($data);
+        $campaign = $website->campaign()->create($data);
+
+        $campaign->generateWorkers();
     }
 
     /**
@@ -184,17 +241,17 @@ class Campaign extends Model
             return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
                     <button type='button' data-action={$this->id} class='btn btn-danger btn-sm stop-campaign campaign-action' style='display:none;'><i class='fa fa-stop' aria-hidden='true'></i> Stop</button>
                     <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action' style='display:none;'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
-                    <button type='button' data-action={$this->id} class='btn btn-info btn-sm resume-campaign campaign-action' style='display:none;'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";
+                    <button type='button' data-action={$this->id} class='btn btn-warning btn-sm resume-campaign campaign-action' style='display:none;'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";
         } elseif ($this->isRunning()) {
             return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action' style='display:none;'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
                     <button type='button' data-action={$this->id} class='btn btn-danger btn-sm stop-campaign campaign-action'><i class='fa fa-stop' aria-hidden='true'></i> Stop</button>
                     <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
-                    <button type='button' data-action={$this->id} class='btn btn-info btn-sm resume-campaign campaign-action' style='display:none;'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";           
+                    <button type='button' data-action={$this->id} class='btn btn-warning btn-sm resume-campaign campaign-action' style='display:none;'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";           
         } elseif ($this->isPaused()) {
             return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action' style='display:none;'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
                     <button type='button' data-action={$this->id} class='btn btn-danger btn-sm stop-campaign campaign-action' style='display:none;'><i class='fa fa-stop' aria-hidden='true'></i> Stop</button>
                     <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action' style='display:none;'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
-                    <button type='button' data-action={$this->id} class='btn btn-info btn-sm resume-campaign campaign-action'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";            
+                    <button type='button' data-action={$this->id} class='btn btn-warning btn-sm resume-campaign campaign-action'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";            
         } else {
             throw new \Exception('Unknown campaign action!');
         }
@@ -225,48 +282,47 @@ class Campaign extends Model
     }
 
     /**
-     * Queue name where the campaign sends publish jobs.
-     *
-     * @param string $index
-     * @return string
-     */
-    public function getPublishQueue($index)
-    {
-        return "campaign-{$this->id}-publish-{$index}";
-    }
-
-    /**
-     * Queue name where the campaign sends delete jobs.
-     *
-     * @param string $index
-     * @return string
-     */
-    public function getDeleteQueue($index)
-    {
-        return "campaign-{$this->id}-delete-{$index}";
-    }
-
-    /**
      * Start campaign. Go go go:)
      *
      * @return void
      */
     public function start()
     {
-        $num_tokens = $this->website->getValidTokensCount();
-        $num_workers = static::NUM_WORKERS;
-        // Calculate how much load every worker should cary
-        $worker_load = ceil($num_tokens/$num_workers);
-        // Distribute the tasks uniformly based on worler load
-        for ($i=0; $i<$num_workers; $i++) {
-            $offset = $i * $worker_load;
-            $tokens = $this->website->tokens()->valid()
-                                              ->skip($offset)
-                                              ->take($worker_load)
-                                              ->get();
-            // Woker indexes start at 1 an not 0
-            $index = $i+1;            
-        }
+        // First reset all the workers so that resume token is disabled
+        $this->resetWorkers();
+        // Run all workers
+        $this->runWorkers();
+    }
+
+    /**
+     * Stop campaign. Go go go:)
+     *
+     * @return void
+     */
+    public function stop()
+    {
+        $this->changeStatusTo('stopped');
+    }
+
+    /**
+     * Pause campaign. Go go go:)
+     *
+     * @return void
+     */
+    public function pause()
+    {
+        $this->changeStatusTo('paused');
+    }
+
+    /**
+     * Resume campaign. Go go go:)
+     *
+     * @return void
+     */
+    public function resume()
+    {
+        // Practically, resume is the same as start without the reset phase
+        $this->runWorkers();
     }
 
     /**
@@ -277,5 +333,15 @@ class Campaign extends Model
     public function website()
     {
         return $this->belongsTo(Website::class);
+    }
+
+    /**
+     * A Campaign has many Workers.
+     *
+     * @return HasMany
+     */
+    public function workers()
+    {
+        return $this->hasMany(Worker::class);
     }
 }
