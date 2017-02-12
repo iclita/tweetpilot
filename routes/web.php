@@ -51,7 +51,7 @@ Route::get('test/{id}', function($id){
 	                continue;
 	            }
 	            // Grab a Twitter connection
-	            $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
+	            $connection = new \Abraham\TwitterOAuth\TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
 	            try {
 	                $statuses = $connection->post('statuses/update', ['status' => $message]);
 	                // Check for errors

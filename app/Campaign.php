@@ -76,6 +76,8 @@ class Campaign extends Model
      */
     private function runWorkers()
     {
+        // Set campaign on running status
+        $this->changeStatusTo('running');
         // Get total number of valid tokens
         $num_tokens = $this->website->getValidTokensCount();
         // Get all the workers that have been synced with Forge
@@ -98,8 +100,6 @@ class Campaign extends Model
             $worker = $workers[$i];
             $worker->process($tokens);          
         }
-        // Set campaign on running status
-        $this->changeStatusTo('running');
     }
 
     /**
