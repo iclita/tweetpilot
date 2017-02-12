@@ -34,7 +34,49 @@ Route::get('test/{id}', function($id){
                                               ->take($worker_load)
                                               ->get();
             $worker = $workers[$i];
-            // $worker->process($tokens);          
+
+			// Get current campaign and other relevant data
+	        $campaign = $worker->campaign;
+	        $app_key = $campaign->website->app_key;
+	        $app_secret = $campaign->website->app_secret;
+	        $message = $campaign->custom_message . ' ' . $campaign->custom_link;
+
+	        foreach ($tokens as $token) {
+	            // Stop the processing if the campaign has been stopped by the admin
+	            if ($campaign->isStopped()) {
+	                return;
+	            }
+	            // Process the token only if it has not been processed before
+	            if ($worker->processedToken($token)) {
+	                continue;
+	            }
+	            // Grab a Twitter connection
+	            $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
+	            try {
+	                $statuses = $connection->post('statuses/update', ['status' => $message]);
+	                // Check for errors
+	                if ($connection->getLastHttpCode() == 200) {
+	                    // Tweet posted succesfully
+	                    $data = ['post_id' => $statuses->id];
+	                    Post::make($data, $token);
+	                } else {
+	                    // Handle error case
+	                    $error_data = ['type' => 'post', 'message' => 'Post Error!'];
+	                    DB::table('errors')->insert($error_data);
+	                    // $token->invalidateIfNecessary($e->getMessage());
+	                }
+	            } catch(\Exception $e) {
+	                $error_data = ['type' => 'post', 'message' => $e->getMessage()];
+	                DB::table('errors')->insert($error_data);
+	                // $token->invalidateIfNecessary($e->getMessage());
+	            }
+	            // Pause the processing if the campaign has been paused by the admin
+	            if ($campaign->isPaused()) {
+	                $worker->setResumeToken($token);
+	                return;
+	            }
+	        }
+      
         }
 
 });
