@@ -45,9 +45,9 @@
                         </div>
                         <div class="form-group">
                             <label for="num-workers">Number of workers</label>
-                            <input type="number" name="num_workers" value="{{ Redis::get('num_workers') }}" class="form-control" id="num-workers" placeholder="Insert number of workers for every campaign" />
+                            <input type="number" name="num_workers" value="{{ Redis::get('num_workers') }}" style="max-width:75px;" class="form-control" id="num-workers" />
                         </div>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Change</button>
+                        <button type="submit" style="float:right;margin-top:-51px;" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Change</button>
                     </form>
                 </div>
             </div>

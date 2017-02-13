@@ -114,7 +114,7 @@ class Campaign extends Model
         $website = Website::find($website_id);
         $data = array_except($data, ['website']);
         $campaign = $website->campaign()->create($data);
-
+        // Generate all associated workers
         $campaign->generateWorkers();
     }
 

@@ -23,6 +23,11 @@ class Post extends Model
     	'post_id',
     ];
 
+    /**
+     * Create a new post belonging to $token.
+     *
+     * @return void
+     */
     public static function make(array $data, Token $token)
     {
         $token->posts()->create($data);
