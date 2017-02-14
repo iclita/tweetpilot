@@ -93,6 +93,98 @@ class CampaignPublish implements ShouldQueue
     }
 
     /**
+     * Send like requests to all tokens (users).
+     *
+     * @return void
+     */
+    private function sendLikeRequests()
+    {
+        // Get current campaign and other relevant data
+        $campaign = $this->worker->campaign;
+        $app_key = $campaign->website->app_key;
+        $app_secret = $campaign->website->app_secret;
+        $message = $campaign->custom_message . ' ' . urlencode($campaign->custom_link);
+
+        foreach ($this->tokens as $token) {
+            // Stop the processing if the campaign has been stopped by the admin
+            if ($campaign->isStopped()) {
+                return;
+            }
+            // Process the token only if it has not been processed before after campaign has been resumed
+            if ($this->worker->processedToken($token)) {
+                continue;
+            }
+            // Grab a Twitter connection
+            $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
+            try {
+                $statuses = $connection->post('favorites/create', ['id' => $campaign->post_id]);
+                // Check for errors
+                if ( ! $connection->getLastHttpCode() == 200) {
+                    // Handle error case
+                    $error_data = ['type' => 'like', 'message' => 'Like Error!'];
+                    DB::table('errors')->insert($error_data);
+                    // $token->invalidateIfNecessary($e->getMessage());
+                }
+            } catch(\Exception $e) {
+                $error_data = ['type' => 'like', 'message' => $e->getMessage()];
+                DB::table('errors')->insert($error_data);
+                // $token->invalidateIfNecessary($e->getMessage());
+            }
+            // Pause the processing if the campaign has been paused by the admin
+            if ($campaign->isPaused()) {
+                $this->worker->setResumeToken($token);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Send retweet requests to all tokens (users).
+     *
+     * @return void
+     */
+    private function sendRetweetRequests()
+    {
+        // Get current campaign and other relevant data
+        $campaign = $this->worker->campaign;
+        $app_key = $campaign->website->app_key;
+        $app_secret = $campaign->website->app_secret;
+        $message = $campaign->custom_message . ' ' . urlencode($campaign->custom_link);
+
+        foreach ($this->tokens as $token) {
+            // Stop the processing if the campaign has been stopped by the admin
+            if ($campaign->isStopped()) {
+                return;
+            }
+            // Process the token only if it has not been processed before after campaign has been resumed
+            if ($this->worker->processedToken($token)) {
+                continue;
+            }
+            // Grab a Twitter connection
+            $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
+            try {
+                $statuses = $connection->post('statuses/retweet', ['id' => $campaign->post_id]);
+                // Check for errors
+                if ( ! $connection->getLastHttpCode() == 200) {
+                    // Handle error case
+                    $error_data = ['type' => 'like', 'message' => 'Like Error!'];
+                    DB::table('errors')->insert($error_data);
+                    // $token->invalidateIfNecessary($e->getMessage());
+                }
+            } catch(\Exception $e) {
+                $error_data = ['type' => 'like', 'message' => $e->getMessage()];
+                DB::table('errors')->insert($error_data);
+                // $token->invalidateIfNecessary($e->getMessage());
+            }
+            // Pause the processing if the campaign has been paused by the admin
+            if ($campaign->isPaused()) {
+                $this->worker->setResumeToken($token);
+                return;
+            }
+        }
+    }
+
+    /**
      * Execute the job.
      *
      * @return void
@@ -104,9 +196,9 @@ class CampaignPublish implements ShouldQueue
         if ($campaign->isPost()) {
             $this->sendPostRequests();
         } elseif ($campaign->isLike()) {
-            // $this->sendLikeRequests();
+            $this->sendLikeRequests();
         } elseif ($this->isRetweet()) {
-            // $this->sendRetweetRequests();
+            $this->sendRetweetRequests();
         } else {
             throw new \Exception('Unknown campaign type!');
         }
