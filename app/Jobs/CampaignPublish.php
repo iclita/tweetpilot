@@ -195,7 +195,7 @@ class CampaignPublish implements ShouldQueue
             $this->sendPostRequests();
         } elseif ($campaign->isLike()) {
             $this->sendLikeRequests();
-        } elseif ($this->isRetweet()) {
+        } elseif ($campaign->isRetweet()) {
             $this->sendRetweetRequests();
         } else {
             throw new \Exception('Unknown campaign type!');
