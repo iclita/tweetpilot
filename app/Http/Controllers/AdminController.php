@@ -75,7 +75,7 @@ class AdminController extends Controller
     {
         $post_id = $request->input('post_id');
         $url = "https://twitter.com/statuses/{$post_id}";
-        // Navigate to Twitter to see of post still exists
+        // Navigate to Twitter to see if post still exists
         return redirect()->away($url);
     }
 }
