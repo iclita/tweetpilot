@@ -11,6 +11,12 @@
         </div>
     </div>
     <div class="container">
+        @if (session()->has('danger'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>{{ session()->get('danger') }}</strong>
+            </div>
+        @endif
         <div class="card-panel">
             {!! Form::model($video, ['route' => ['videos.update', $video->id]]) !!}
                 {{ method_field('PATCH') }}

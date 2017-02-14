@@ -4,9 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Video;
 use Illuminate\Http\Request;
+use App\Services\ValidatesTweet;
 
 class VideoController extends Controller
 {
+    use ValidatesTweet;
+
+    /**
+     * Build a simulating tweet to see if it can be posted lately
+     *
+     * @return array
+     */
+    private function simulateTweet()
+    {
+        return [
+            'message' => request('title'),
+            'link'    => 'https://www.youtube.com/watch?v=' . request('slug'),
+        ];
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -36,6 +52,11 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate if tweet is valid (custom validation specific to Twitter regarding the 140 chacracters limit)
+        if ( ! $this->tweetIsValid($this->simulateTweet())) {
+            return back()->withInput()->with('danger', 'Tweet is invalid! More than 140 characters provided!');
+        }
+        // If validation passes, generate the video
         Video::create($request->all());
         return redirect()->route('videos.index')->with('success', 'Video created succesfully!');
     }
@@ -71,6 +92,11 @@ class VideoController extends Controller
      */
     public function update(Request $request, Video $video)
     {
+        // Validate if tweet is valid (custom validation specific to Twitter regarding the 140 chacracters limit)
+        if ( ! $this->tweetIsValid($this->simulateTweet())) {
+            return back()->withInput()->with('danger', 'Tweet is invalid! More than 140 characters provided!');
+        }
+        // If validation passes, generate the video
         $video->update($request->all());
         return redirect()->route('videos.index')->with('success', 'Video updated succesfully!');
     }

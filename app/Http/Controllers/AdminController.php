@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
-use Redis;
+use App\Services\Settings;
 
 class AdminController extends Controller
 {
@@ -57,11 +57,25 @@ class AdminController extends Controller
      */
     public function changeSettings(Request $request)
     {
-    	Redis::set('is_auto', $request->input('is_auto'));
-    	Redis::set('publish_interval', $request->input('publish_interval'));
-    	Redis::set('growth_percentage', $request->input('growth_percentage'));
-    	Redis::set('num_workers', $request->input('num_workers'));
+    	Settings::set('is_auto', $request->input('is_auto'));
+    	Settings::set('publish_interval', $request->input('publish_interval'));
+    	Settings::set('growth_percentage', $request->input('growth_percentage'));
+    	Settings::set('num_workers', $request->input('num_workers'));
 
     	return back()->with('success', 'Settings changed succesfully');
+    }
+
+    /**
+     * Check if a post exists.
+     *
+     * @param Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function debugPost(Request $request)
+    {
+        $post_id = $request->input('post_id');
+        $url = "https://twitter.com/statuses/{$post_id}";
+        // Navigate to Twitter to see of post still exists
+        return redirect()->away($url);
     }
 }

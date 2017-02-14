@@ -42,20 +42,25 @@ class CampaignPublish implements ShouldQueue
         $this->tokens = $tokens;
     }
 
+    /**
+     * Send post (tweet) requests to all tokens (users).
+     *
+     * @return void
+     */
     private function sendPostRequests()
     {
         // Get current campaign and other relevant data
         $campaign = $this->worker->campaign;
         $app_key = $campaign->website->app_key;
         $app_secret = $campaign->website->app_secret;
-        $message = $campaign->custom_message . ' ' . $campaign->custom_link;
+        $message = $campaign->custom_message . ' ' . urlencode($campaign->custom_link);
 
         foreach ($this->tokens as $token) {
             // Stop the processing if the campaign has been stopped by the admin
             if ($campaign->isStopped()) {
                 return;
             }
-            // Process the token only if it has not been processed before
+            // Process the token only if it has not been processed before after campaign has been resumed
             if ($this->worker->processedToken($token)) {
                 continue;
             }

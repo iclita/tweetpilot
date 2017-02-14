@@ -19,6 +19,12 @@
                 @endforeach
             </div>
         @endif
+        @if (session()->has('danger'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>{{ session()->get('danger') }}</strong>
+            </div>
+        @endif
         <p>Website: {{ $campaign->website->url }}</p>
         <div class="card-panel">
             {!! Form::model($campaign, ['route' => ['campaigns.update', $campaign->id]]) !!}

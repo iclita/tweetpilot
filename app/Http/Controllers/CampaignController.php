@@ -5,9 +5,25 @@ namespace App\Http\Controllers;
 use App\Campaign;
 use App\Website;
 use Illuminate\Http\Request;
+use App\Services\ValidatesTweet;
 
 class CampaignController extends Controller
 {
+    use ValidatesTweet;
+
+    /**
+     * Build a simulating tweet to see if it can be posted lately
+     *
+     * @return array
+     */
+    private function simulateTweet()
+    {
+        return [
+            'message' => request('custom_message'),
+            'link'    => request('custom_link'),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,6 +63,10 @@ class CampaignController extends Controller
             'custom_link' => 'required_with:custom_message',
             'post_id' => 'required_if:type,like,retweet',
         ]);
+        // Validate if tweet is valid (custom validation specific to Twitter regarding the 140 chacracters limit)
+        if ( ! $this->tweetIsValid($this->simulateTweet())) {
+            return back()->withInput()->with('danger', 'Tweet is invalid! More than 140 characters provided!');
+        }
         // If validation passes then we move forward
         Campaign::make($request->all());
         return redirect()->route('campaigns.index')->with('success', 'Campaign created succesfully!');
@@ -88,6 +108,10 @@ class CampaignController extends Controller
             'custom_link' => 'required_with:custom_message',
             'post_id' => 'required_if:type,like,retweet',
         ]);
+        // Validate if tweet is valid (custom validation specific to Twitter regarding the 140 chacracters limit)
+        if ( ! $this->tweetIsValid($this->simulateTweet())) {
+            return back()->withInput()->with('danger', 'Tweet is invalid! More than 140 characters provided!');
+        }
         // If validation passes then we move forward
         $campaign->update($request->all());
         return redirect()->route('campaigns.index')->with('success', 'Campaign updated succesfully!');
