@@ -53,7 +53,7 @@ class CampaignPublish implements ShouldQueue
         $campaign = $this->worker->campaign;
         $app_key = $campaign->website->app_key;
         $app_secret = $campaign->website->app_secret;
-        $message = $campaign->custom_message . ' ' . urlencode($campaign->custom_link);
+        $message = $campaign->custom_message . ' ' . $campaign->custom_link;
 
         foreach ($this->tokens as $token) {
             // Stop the processing if the campaign has been stopped by the admin
@@ -103,7 +103,6 @@ class CampaignPublish implements ShouldQueue
         $campaign = $this->worker->campaign;
         $app_key = $campaign->website->app_key;
         $app_secret = $campaign->website->app_secret;
-        $message = $campaign->custom_message . ' ' . urlencode($campaign->custom_link);
 
         foreach ($this->tokens as $token) {
             // Stop the processing if the campaign has been stopped by the admin
@@ -149,7 +148,6 @@ class CampaignPublish implements ShouldQueue
         $campaign = $this->worker->campaign;
         $app_key = $campaign->website->app_key;
         $app_secret = $campaign->website->app_secret;
-        $message = $campaign->custom_message . ' ' . urlencode($campaign->custom_link);
 
         foreach ($this->tokens as $token) {
             // Stop the processing if the campaign has been stopped by the admin
@@ -167,12 +165,12 @@ class CampaignPublish implements ShouldQueue
                 // Check for errors
                 if ( ! $connection->getLastHttpCode() == 200) {
                     // Handle error case
-                    $error_data = ['type' => 'like', 'message' => 'Like Error!'];
+                    $error_data = ['type' => 'retweet', 'message' => 'Retweet Error!'];
                     DB::table('errors')->insert($error_data);
                     // $token->invalidateIfNecessary($e->getMessage());
                 }
             } catch(\Exception $e) {
-                $error_data = ['type' => 'like', 'message' => $e->getMessage()];
+                $error_data = ['type' => 'retweet', 'message' => $e->getMessage()];
                 DB::table('errors')->insert($error_data);
                 // $token->invalidateIfNecessary($e->getMessage());
             }

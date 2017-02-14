@@ -15,7 +15,7 @@ trait ValidatesTweet
         $message = $tweet['message'];
         $link = $tweet['link'];
         // This is the full post on Twitter
-        $post = $message . ' ' . urlencode($link);
+        $post = $message . ' ' . $link;
         // Check to see if post has less than 140 characters specific to Twitter
         return strlen($post) <= 140;
     }
