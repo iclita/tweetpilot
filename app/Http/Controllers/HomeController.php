@@ -50,7 +50,8 @@ class HomeController extends Controller
      */
     public function previewVideo(Video $video)
     {
-        return view('video', compact('video'));
+        $website = Website::findByUrl(request()->url());
+        return view('video', compact('website', 'video'));
     }
 
     /**
