@@ -14,7 +14,7 @@
 </head>
 <body>
     <script>
-        window.location.href = "{{ route('video.show', ['id' => $video->id]) }}";
+        // window.location.href = "{{ route('video.show', ['id' => $video->id]) }}";
     </script>
 </body>
 </html>
