@@ -303,10 +303,10 @@ class Campaign extends Model
      */
     public function stop()
     {
-        // First reset all the workers so that resume token is disabled
-        $this->resetWorkers();
         // Set campaign on stop status
         $this->changeStatusTo('stopped');
+        // First reset all the workers so that resume token is disabled
+        $this->resetWorkers();
     }
 
     /**
