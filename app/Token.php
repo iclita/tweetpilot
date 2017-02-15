@@ -63,6 +63,15 @@ class Token extends Model
     }
 
     /**
+     * Invalidate this token.
+     *
+     */
+    public function invalidate()
+    {
+        $this->update(['valid' => false]);
+    }
+
+    /**
      * Get only valid tokens.
      *
      * @return QueryBuilder

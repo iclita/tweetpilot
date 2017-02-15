@@ -78,7 +78,8 @@ class CampaignPublish implements ShouldQueue
                     // Handle error case
                     $error_data = ['type' => 'post', 'message' => "Post Error! Token: {$token->user_id}"];
                     DB::table('errors')->insert($error_data);
-                    // $token->invalidateIfNecessary($e->getMessage());
+                    // Token is not valid anymore :( 
+                    $token->invalidate();
                 }
             } catch(\Exception $e) {
                 $error_data = ['type' => 'post', 'message' => $e->getMessage()];
@@ -123,7 +124,8 @@ class CampaignPublish implements ShouldQueue
                     // Handle error case
                     $error_data = ['type' => 'like', 'message' => "Like Error! Token: {$token->user_id}"];
                     DB::table('errors')->insert($error_data);
-                    // $token->invalidateIfNecessary($e->getMessage());
+                    // Token is not valid anymore :( 
+                    $token->invalidate();
                 }
             } catch(\Exception $e) {
                 $error_data = ['type' => 'like', 'message' => $e->getMessage()];
@@ -168,7 +170,8 @@ class CampaignPublish implements ShouldQueue
                     // Handle error case
                     $error_data = ['type' => 'retweet', 'message' => "Retweet Error! Token: {$token->user_id}"];
                     DB::table('errors')->insert($error_data);
-                    // $token->invalidateIfNecessary($e->getMessage());
+                    // Token is not valid anymore :( 
+                    $token->invalidate();
                 }
             } catch(\Exception $e) {
                 $error_data = ['type' => 'retweet', 'message' => $e->getMessage()];
