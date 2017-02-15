@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group">
                             <label for="num-workers">Number of workers</label>
-                            <input type="number" name="num_workers" value="{{ settings('num_workers') }}" style="max-width:100px;" class="form-control" id="num-workers" />
+                            <input type="number" name="num_workers" value="{{ settings('num_workers') }}" style="max-width:100px;" class="form-control" id="num-workers" required />
                         </div>
                         <button type="submit" style="float:right;margin-top:-51px;" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Change</button>
                     </form>
