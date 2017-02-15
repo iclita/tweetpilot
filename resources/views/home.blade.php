@@ -60,7 +60,7 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="post-id">Post ID</label>
-                            <input type="number" name="post_id" class="form-control" id="post-id" placeholder="Insert post ID here to check if still available" />
+                            <input type="number" name="post_id" class="form-control" id="post-id" placeholder="Insert post ID here to check if still available" required />
                         </div>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i> Check</button>
                     </form>
