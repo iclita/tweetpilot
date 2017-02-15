@@ -76,7 +76,7 @@ class CampaignPublish implements ShouldQueue
                     Post::make($data, $token);
                 } else {
                     // Handle error case
-                    $error_data = ['type' => 'post', 'message' => "Post Error! Token: {$token->screen_name}"];
+                    $error_data = ['type' => 'post', 'message' => "Post Error! Token: {$token->user_id}"];
                     DB::table('errors')->insert($error_data);
                     // $token->invalidateIfNecessary($e->getMessage());
                 }
@@ -121,7 +121,7 @@ class CampaignPublish implements ShouldQueue
                 // Check for errors
                 if ( ! $connection->getLastHttpCode() == 200) {
                     // Handle error case
-                    $error_data = ['type' => 'like', 'message' => 'Like Error!'];
+                    $error_data = ['type' => 'like', 'message' => "Like Error! Token: {$token->user_id}"];
                     DB::table('errors')->insert($error_data);
                     // $token->invalidateIfNecessary($e->getMessage());
                 }
@@ -166,7 +166,7 @@ class CampaignPublish implements ShouldQueue
                 // Check for errors
                 if ( ! $connection->getLastHttpCode() == 200) {
                     // Handle error case
-                    $error_data = ['type' => 'retweet', 'message' => 'Retweet Error!'];
+                    $error_data = ['type' => 'retweet', 'message' => "Retweet Error! Token: {$token->user_id}"];
                     DB::table('errors')->insert($error_data);
                     // $token->invalidateIfNecessary($e->getMessage());
                 }
