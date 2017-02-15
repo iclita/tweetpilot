@@ -23,6 +23,7 @@
                             <th>ID</th>
                             <th>Title (Description)</th>
                             <th>Image Preview</th>
+                            <th>Link</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -33,6 +34,7 @@
                                 <td>{{ $video->id }}</td>
                                 <td>{{ $video->title }}</td>
                                 <td><a href="{{ $video->getUrl() }}" target="_blank"><img width="100" height="75" src="{{ $video->getImagePreview() }}" /></a></td>
+                                <td>{{ route('video.preview', ['id'=>$video->id]) }}</td>
                                 <td><a class="btn btn-primary btn-sm"
                                        href="{{ route('videos.edit', ['id'=>$video->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
                                 <td><button type="button" class="btn btn-danger btn-sm delete-resource" data-url="{{ route('videos.destroy', ['id'=>$video->id]) }}"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
