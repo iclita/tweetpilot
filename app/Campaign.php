@@ -89,12 +89,14 @@ class Campaign extends Model
         // Calculate how much load every worker should cary
         $worker_load = ceil($num_tokens/$num_workers);
         // Distribute the tasks uniformly based on worker load
+        // Shuffle the tokens before 
         for ($i=0; $i<$num_workers; $i++) {
             $offset = $i * $worker_load;
             $tokens = $this->website->tokens()->valid()
                                               ->skip($offset)
                                               ->take($worker_load)
-                                              ->get();
+                                              ->get()
+                                              ->shuffle();
             $worker = $workers[$i];
             // Start current worker and process tokens
             $worker->start()

@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <label>
-                                {{ Form::checkbox('is_auto', '1', settings('is_auto')) }} Check if you want auto
+                                {{ Form::checkbox('is_auto', '1', settings('is_auto')) }} Automatic campaigns
                                 </label>
                             </div>
                         </div>
