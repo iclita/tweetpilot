@@ -18,6 +18,7 @@ Route::get('login', function() {
 // Home Routes...
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('watch', 'HomeController@watch')->name('watch');
+Route::get('video/{video}/preview', 'HomeController@previewVideo')->name('video.preview');
 Route::get('video/{video}/show', 'HomeController@showVideo')->name('video.show');
 Route::get('video/{video}/callback', 'HomeController@callbackVideo')->name('video.callback');
 // Secret Routes...

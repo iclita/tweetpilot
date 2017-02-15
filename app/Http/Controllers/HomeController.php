@@ -38,7 +38,19 @@ class HomeController extends Controller
 		}
         $website = Website::findByUrl(request()->url());
         $videos = Video::paginate(Video::PAGINATION);
+
         return view('watch', compact('website', 'videos'));
+    }
+
+    /**
+     * Show a preview of the video.
+     *
+     * @param App\Video $video
+     * @return \Illuminate\Http\Response
+     */
+    public function previewVideo(Video $video)
+    {
+        return view('video', ['id' => $video->id]);
     }
 
     /**

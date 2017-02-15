@@ -4,15 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     @yield('title')
-
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
-
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -53,7 +49,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-left">
                         <li class="{{ (request()->is('*/home')) ? 'active' : '' }}"><a href="{{ route('home') }}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
-                        <li class="{{ (request()->is('*/campaigns')) ? 'active' : '' }}"><a href="{{ route('campaigns.index') }}"><i class="fa fa-paper-plane" aria-hidden="true"></i> Campaigns</a></li>
+                        <li class="{{ (request()->is('*/campaigns')) ? 'active' : '' }}"><a href="{{ route('campaigns.index') }}"><i class="fa fa-rocket" aria-hidden="true"></i> Campaigns</a></li>
                         <li class="{{ (request()->is('*/websites')) ? 'active' : '' }}"><a href="{{ route('websites.index') }}"><i class="fa fa-globe" aria-hidden="true"></i> Websites</a></li>
                         <li class="{{ (request()->is('*/videos')) ? 'active' : '' }}"><a href="{{ route('videos.index') }}"><i class="fa fa-video-camera" aria-hidden="true"></i> Videos</a></li>
                         <li class="{{ (request()->is('*/links')) ? 'active' : '' }}"><a href="{{ route('links.index') }}"><i class="fa fa-link" aria-hidden="true"></i> Links</a></li>
@@ -102,19 +98,16 @@
         </div>
       </div>
     </div>
-
     @if (Auth::guest() && isset($website))
     <nav class="navbar navbar-default navbar-static-bottom">
         <h4>{{ date('Y') }} &copy; All rights reserved. Made with <i style="font-size:16px;color:#E2264D;" class="fa fa-heart" aria-hidden="true"></i></h4>
     </nav>
     @endif
-
     @if (Auth::check())
     <script>
         var admin_route = "{{ env('ADMIN_ROUTE') }}";
     </script>
     @endif
-
     <!-- Scripts -->
     <script src="/js/app.js"></script>
 </body>
