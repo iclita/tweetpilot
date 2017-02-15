@@ -76,8 +76,6 @@ class Campaign extends Model
      */
     private function runWorkers()
     {
-        // Set campaign on running status
-        $this->changeStatusTo('running');
         // Get total number of valid tokens
         $num_tokens = $this->website->getValidTokensCount();
         // Get all the workers that have been synced with Forge
@@ -292,6 +290,8 @@ class Campaign extends Model
     {
         // First reset all the workers so that resume token is disabled
         $this->resetWorkers();
+        // Set campaign on running status
+        $this->changeStatusTo('running');
         // Run all workers
         $this->runWorkers();
     }
@@ -303,6 +303,9 @@ class Campaign extends Model
      */
     public function stop()
     {
+        // First reset all the workers so that resume token is disabled
+        $this->resetWorkers();
+        // Set campaign on stop status
         $this->changeStatusTo('stopped');
     }
 
@@ -313,6 +316,7 @@ class Campaign extends Model
      */
     public function pause()
     {
+        // Set campaign on pause status
         $this->changeStatusTo('paused');
     }
 
@@ -323,6 +327,8 @@ class Campaign extends Model
      */
     public function resume()
     {
+        // Set campaign on running status
+        $this->changeStatusTo('running');
         // Practically, resume is the same as start without the reset phase
         $this->runWorkers();
     }
