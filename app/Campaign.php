@@ -336,6 +336,18 @@ class Campaign extends Model
     }
 
     /**
+     * Check if all workers have finished to stop the campaign
+     *
+     * @return bool
+     */
+    public function shouldStop()
+    {
+        return ! DB::table('workers')->where('campaign_id', $this->id)
+                                     ->where('has_finished', false)
+                                     ->exists();
+    }
+
+    /**
      * Campaign belongs to a Website.
      *
      * @return BelongsTo

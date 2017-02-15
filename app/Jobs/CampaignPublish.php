@@ -12,6 +12,7 @@ use App\Post;
 use Illuminate\Support\Collection;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use DB;
+use App\Events\WorkerFinished;
 
 class CampaignPublish implements ShouldQueue
 {
@@ -193,7 +194,7 @@ class CampaignPublish implements ShouldQueue
     public function handle()
     {
         $campaign = $this->worker->campaign;
-
+        // Choose campaign type to start
         if ($campaign->isPost()) {
             $this->sendPostRequests();
         } elseif ($campaign->isLike()) {
@@ -203,7 +204,7 @@ class CampaignPublish implements ShouldQueue
         } else {
             throw new \Exception('Unknown campaign type!');
         }
-
-        $campaign->stop();
+        // Tell the world this worker has finished :)
+        event(new WorkerFinished($this->worker));
     }
 }
