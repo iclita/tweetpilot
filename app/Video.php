@@ -28,7 +28,7 @@ class Video extends Model
      *
      * @var int
      */
-    const PAGINATION = 8;
+    const PAGINATION = 4;
 
     /**
      * Get the video youtube URL.
