@@ -97,8 +97,7 @@ class Campaign extends Model
                                               ->get();
             $worker = $workers[$i];
             // Start current worker and process tokens
-            $worker->start()
-                   ->process($tokens);          
+            $worker->start($tokens);      
         }
     }
 
