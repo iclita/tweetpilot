@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Social Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="{{ $website->url }}" />
+    <meta name="twitter:site" content="{{ $website->getFullUrl() }}" />
     <meta name="twitter:title" content="{{ $website->name }}" />
     <meta name="twitter:description" content="{{ $video->title }}" />
     <meta name="twitter:url" content="{{ request()->url() }}" />
