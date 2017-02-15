@@ -30,6 +30,7 @@ class AdminController extends Controller
             '4'  => '6 (4h)',
             '3'  => '8 (3h)',
             '2'  => '12 (2h)',
+            '1'  => '24 (1h)',
         ];
 
         $growth_percentages = [
