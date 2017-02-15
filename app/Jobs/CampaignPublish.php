@@ -64,9 +64,10 @@ class CampaignPublish implements ShouldQueue
             if ($this->worker->processedToken($token)) {
                 continue;
             }
-            // Grab a Twitter connection
-            $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
             try {
+                // Grab a Twitter connection
+                $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
+                // Post on Twitter
                 $statuses = $connection->post('statuses/update', ['status' => $message]);
                 // Check for errors
                 if ($connection->getLastHttpCode() == 200) {
@@ -75,14 +76,13 @@ class CampaignPublish implements ShouldQueue
                     Post::make($data, $token);
                 } else {
                     // Handle error case
-                    $error_data = ['type' => 'post', 'message' => 'Post Error!'];
+                    $error_data = ['type' => 'post', 'message' => "Post Error! Token: {$token->screen_name}"];
                     DB::table('errors')->insert($error_data);
                     // $token->invalidateIfNecessary($e->getMessage());
                 }
             } catch(\Exception $e) {
                 $error_data = ['type' => 'post', 'message' => $e->getMessage()];
                 DB::table('errors')->insert($error_data);
-                // $token->invalidateIfNecessary($e->getMessage());
             }
             // Pause the processing if the campaign has been paused by the admin
             if ($campaign->isPaused()) {
@@ -113,9 +113,10 @@ class CampaignPublish implements ShouldQueue
             if ($this->worker->processedToken($token)) {
                 continue;
             }
-            // Grab a Twitter connection
-            $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
             try {
+                // Grab a Twitter connection
+                $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
+                // Like on Twitter
                 $statuses = $connection->post('favorites/create', ['id' => $campaign->post_id]);
                 // Check for errors
                 if ( ! $connection->getLastHttpCode() == 200) {
@@ -127,7 +128,6 @@ class CampaignPublish implements ShouldQueue
             } catch(\Exception $e) {
                 $error_data = ['type' => 'like', 'message' => $e->getMessage()];
                 DB::table('errors')->insert($error_data);
-                // $token->invalidateIfNecessary($e->getMessage());
             }
             // Pause the processing if the campaign has been paused by the admin
             if ($campaign->isPaused()) {
@@ -158,9 +158,10 @@ class CampaignPublish implements ShouldQueue
             if ($this->worker->processedToken($token)) {
                 continue;
             }
-            // Grab a Twitter connection
-            $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
             try {
+                // Grab a Twitter connection
+                $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
+                // Retweet on Twitter
                 $statuses = $connection->post('statuses/retweet', ['id' => $campaign->post_id]);
                 // Check for errors
                 if ( ! $connection->getLastHttpCode() == 200) {
@@ -172,7 +173,6 @@ class CampaignPublish implements ShouldQueue
             } catch(\Exception $e) {
                 $error_data = ['type' => 'retweet', 'message' => $e->getMessage()];
                 DB::table('errors')->insert($error_data);
-                // $token->invalidateIfNecessary($e->getMessage());
             }
             // Pause the processing if the campaign has been paused by the admin
             if ($campaign->isPaused()) {
