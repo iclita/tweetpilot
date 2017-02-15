@@ -87,15 +87,27 @@ class Worker extends Model
     }
 
     /**
+     * Start worker by setting the proper status.
+     *
+     * @return $this
+     */
+    public function start()
+    {
+        // Update worker state and set it as running (not finished)
+        // Do not change resume_token because campaign can be resumed and not started
+        $this->update(['has_finished' => false]);
+        // Return current instance for method chaining
+        return $this;
+    }
+
+    /**
      * Start working on those tokens.
      *
      * @param Illuminate\Support\Collection $tokens
      * @return void
      */
-    public function start(Collection $tokens)
+    public function process(Collection $tokens)
     {
-        // Update worker state and set it as running (not finished)
-        $this->update(['has_finished' => false]);
         // Dispatch the job for background processing
         $job = (new CampaignPublish($this, $tokens))->onQueue($this->getQueue());
         dispatch($job);

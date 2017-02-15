@@ -87,7 +87,7 @@ class Campaign extends Model
             throw new \Exception("Campaign {$this->id} has no workers!");
         }
         // Calculate how much load every worker should cary
-        $worker_load = ceil($num_tokens/$workers->count());
+        $worker_load = ceil($num_tokens/$num_workers);
         // Distribute the tasks uniformly based on worker load
         for ($i=0; $i<$num_workers; $i++) {
             $offset = $i * $worker_load;
@@ -97,7 +97,8 @@ class Campaign extends Model
                                               ->get();
             $worker = $workers[$i];
             // Start current worker and process tokens
-            $worker->start($tokens);      
+            $worker->start()
+                   ->process($tokens);      
         }
     }
 

@@ -90,8 +90,6 @@ class CampaignPublish implements ShouldQueue
                 $this->worker->setResumeToken($token);
                 return;
             }
-            // Sleep for 5s to be less agressive
-            sleep(5);
         }
     }
 
@@ -138,8 +136,6 @@ class CampaignPublish implements ShouldQueue
                 $this->worker->setResumeToken($token);
                 return;
             }
-            // Sleep for 5s to be less agressive
-            sleep(5);
         }
     }
 
@@ -186,8 +182,6 @@ class CampaignPublish implements ShouldQueue
                 $this->worker->setResumeToken($token);
                 return;
             }
-            // Sleep for 5s to be less agressive
-            sleep(5);
         }
     }
 
