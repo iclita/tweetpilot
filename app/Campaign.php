@@ -310,7 +310,7 @@ class Campaign extends Model
     }
 
     /**
-     * Pause campaign. Go go go:)
+     * Pause campaign. Stop here:)
      *
      * @return void
      */
