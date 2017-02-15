@@ -50,7 +50,7 @@ class HomeController extends Controller
      */
     public function previewVideo(Video $video)
     {
-        return view('video', ['id' => $video->id]);
+        return view('video', compact('video'));
     }
 
     /**
