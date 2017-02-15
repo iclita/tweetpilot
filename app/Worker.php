@@ -97,11 +97,12 @@ class Worker extends Model
      * Attach a collection of tokens to this worker.
      *
      * @param Illuminate\Support\Collection $tokens
-     * @return void
+     * @return $this
      */
     public function attach(Collection $tokens)
     {
         $this->tokens = $tokens;
+        return $this;
     }
 
     /**
