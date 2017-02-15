@@ -24,7 +24,7 @@
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <div class="panel panel-default">
-                <div class="panel-heading"><strong><i class="fa fa-cog" aria-hidden="true"></i> Campaign Settings</strong></div>
+                <div class="panel-heading"><strong><i class="fa fa-cog" aria-hidden="true"></i> Settings</strong></div>
                 <div class="panel-body">
                     <form method="POST" action="{{ route('change.settings') }}">
                         {{ csrf_field() }}
