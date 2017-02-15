@@ -105,7 +105,7 @@
 
     @if (Auth::guest() && isset($website))
     <nav class="navbar navbar-default navbar-static-bottom">
-        <h4>{{ date('Y') }} &copy; Made with <i style="font-size:20px;color:#E2264D;" class="fa fa-heart" aria-hidden="true"></i></h4>
+        <h4>{{ date('Y') }} &copy; All rights reserved. Made with <i style="font-size:16px;color:#E2264D;" class="fa fa-heart" aria-hidden="true"></i></h4>
     </nav>
     @endif
 
