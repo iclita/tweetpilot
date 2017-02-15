@@ -17,13 +17,6 @@ class Worker extends Model
     protected $table = 'workers';
 
     /**
-     * The tokens to be processed.
-     *
-     * @var Collection(App\Token)
-     */
-    protected $tokens;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -94,40 +87,39 @@ class Worker extends Model
     }
 
     /**
-     * Attach a collection of tokens to this worker.
+     * Start worker by setting the proper status.
      *
-     * @param Illuminate\Support\Collection $tokens
      * @return $this
      */
-    public function attach(Collection $tokens)
+    public function start()
     {
-        $this->tokens = $tokens;
+        // Update worker state and set it as running (not finished)
+        $this->update(['has_finished' => false]);
+        // Return current instance for method chaining
         return $this;
     }
 
     /**
-     * Start working on a job.
-     *
-     * @return void
-     */
-    public function start()
-    {
-    	// Update worker state and set it as running (not finished)
-    	$this->update(['has_finished' => false]);
-    	// Dispatch the job for background processing
-    	$job = (new CampaignPublish($this, $this->tokens))->onQueue($this->getQueue());
-    	dispatch($job);
-    }
-
-    /**
-     * Stop the current worker.
+     * Stop worker by setting the proper status.
      *
      * @return void
      */
     public function stop()
     {
-        // Update worker state and set it as finished and done
         $this->update(['resume_token' => 0, 'has_finished' => true]);
+    }
+
+    /**
+     * Generate the publish post job and queue it.
+     *
+     * @param Illuminate\Support\Collection $tokens
+     * @return void
+     */
+    public function process(Collection $tokens)
+    {
+    	// Dispatch the job for background processing
+    	$job = (new CampaignPublish($this, $tokens))->onQueue($this->getQueue());
+    	dispatch($job);
     }
 
     /**

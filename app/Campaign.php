@@ -96,9 +96,9 @@ class Campaign extends Model
                                               ->take($worker_load)
                                               ->get();
             $worker = $workers[$i];
-            // Load the tokens and start the worker
-            $worker->attach($tokens)
-                   ->start();          
+            // Start current worker and process tokens
+            $worker->start()
+                   ->process($tokens);          
         }
     }
 
