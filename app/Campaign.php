@@ -96,7 +96,9 @@ class Campaign extends Model
                                               ->take($worker_load)
                                               ->get();
             $worker = $workers[$i];
-            $worker->process($tokens);          
+            // Load the tokens and start the worker
+            $worker->attach($tokens)
+                   ->start();          
         }
     }
 
@@ -305,7 +307,7 @@ class Campaign extends Model
     {
         // Set campaign on stop status
         $this->changeStatusTo('stopped');
-        // First reset all the workers so that resume token is disabled
+        // Reset all the workers so that resume token is disabled
         $this->resetWorkers();
     }
 
