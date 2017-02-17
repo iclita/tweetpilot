@@ -39,9 +39,7 @@ class PublishPosts extends Command
      */
     public function handle()
     {
-        // Set the time when this cron last ran if necessary
-        Manager::setLastRunIfNotExists();
-        // Check if we shoud start the campaigns
+        // Check if we should start the campaigns
         if (Manager::shouldRun()) {
             // Start all active campaigns
             Manager::run();

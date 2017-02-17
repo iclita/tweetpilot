@@ -9,25 +9,17 @@ use App\Campaign;
 class CampaignsManager
 {
     /**
-     * Set last_run key in the campaign settings only if it does not exist.
-     * This key holds the timestamp when the PublishPosts cron last ran
-     *
-     * @return void
-     */
-    public static function setLastRunIfNotExists()
-    {
-        if ( ! Settings::has('last_run')) {
-            Settings::set('last_run', Carbon::now()->toDateTimeString());
-        }
-    }
-
-    /**
      * Check if campaigns should be started on auto.
      *
      * @return bool
      */
     public static function shouldRun()
     {
+        // Set last_run key in the campaign settings only if it does not exist
+        // This key holds the timestamp when the PublishPosts cron last ran
+        if ( ! Settings::has('last_run')) {
+            Settings::set('last_run', Carbon::now()->toDateTimeString());
+        }
         // First check if settings are on auto (this is the first condition to start the cron)
         if (Settings::get('is_auto', false)) {
             $last_run = Carbon::createFromFormat('Y-m-d H:i:s', Settings::get('last_run'));
