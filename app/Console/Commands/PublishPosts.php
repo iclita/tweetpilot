@@ -43,7 +43,7 @@ class PublishPosts extends Command
         Manager::setLastRunIfNotExists();
         // Check if we shoud start the campaigns
         if (Manager::shouldRunCampaigns()) {
-            foreach (Campaign::with('website.tokens')->get() as $campaign) {
+            foreach (Campaign::with('website.tokens')->active()->get() as $campaign) {
                 $campaign->start();
             }
         }

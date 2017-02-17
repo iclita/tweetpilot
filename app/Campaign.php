@@ -363,6 +363,16 @@ class Campaign extends Model
     }
 
     /**
+     * Get only active campaigns.
+     *
+     * @return QueryBuilder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+
+    /**
      * Campaign belongs to a Website.
      *
      * @return BelongsTo
