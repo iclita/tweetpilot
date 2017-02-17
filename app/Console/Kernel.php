@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\PublishPosts::class,
-        \App\Console\Commands\DeleteTokens::class,
+        \App\Console\Commands\DeletePosts::class,
     ];
 
     /**
@@ -27,8 +27,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('amapilot:publish-posts --queue=cron')
                  ->everyFiveMinutes();
-        // $schedule->command('amapilot:delete-tokens --queue=cron')
-        //          ->daily();
+        $schedule->command('amapilot:delete-posts --queue=cron')
+                 ->daily();
     }
 
     /**

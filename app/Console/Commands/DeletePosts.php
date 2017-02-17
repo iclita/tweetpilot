@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use DB;
 
-class DeleteTokens extends Command
+class DeletePosts extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'amapilot:delete-tokens {--queue=}';
+    protected $signature = 'amapilot:delete-posts {--queue=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Delete all invalid tokens';
+    protected $description = 'Delete all posts older than a week';
 
     /**
      * Create a new command instance.
@@ -38,7 +38,6 @@ class DeleteTokens extends Command
      */
     public function handle()
     {
-        DB::table('tokens')->where('valid', false)
-                           ->delete();
+        DB::table('posts')->whereRaw('TIMESTAMPDIFF(WEEK, created_at, NOW()) > 0')->delete();
     }
 }
