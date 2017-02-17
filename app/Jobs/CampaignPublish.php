@@ -134,16 +134,13 @@ class CampaignPublish implements ShouldQueue
     {
         // Get growth percentage from settings
         $growth_percentage = settings('growth_percentage', 0);
-        // Calculate the number of posts that should be for growth (video links not money)
-        $num_growth = round(($growth_percentage * $this->tokens->count())/100);
         // Get the step: To understand the step we need to give the following example:
         // Say we have 100 tokens to process with growth_percentage of 20%
-        // This means num_growth will be 20*100/100=20
         // Now if we do 100/20=5 we get the step
         // The step of 5 means once every 5 iterations we must publish a video link
         // The rest are money (affiliate) links
-        if ($num_growth > 0) {
-            $step = round($this->tokens->count()/$num_growth); 
+        if ($growth_percentage > 0) {
+            $step = round(100/$growth_percentage); 
         } else {
             $step = 0;
         }
