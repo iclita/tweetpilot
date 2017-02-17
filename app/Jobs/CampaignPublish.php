@@ -100,7 +100,7 @@ class CampaignPublish implements ShouldQueue
     private function getPostData($index, $step, $campaign)
     {
         // If we have custom data then that is what should be posted
-        if ($this->isCustom()) {
+        if ($campaign->isCustom()) {
             return $this->getCustomPost($campaign);
         } else {
             // If we have $step 0 it means we have only link posts
