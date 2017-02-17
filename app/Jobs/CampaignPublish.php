@@ -284,7 +284,7 @@ class CampaignPublish implements ShouldQueue
     {
         $campaign = $this->worker->campaign;
         // Choose campaign type to start only if we have tokens to process
-        if ( ! $this->tokens->isEmpty(()) {        
+        if ( ! $this->tokens->isEmpty()) {        
             if ($campaign->isPost()) {
                 $this->sendPostRequests();
             } elseif ($campaign->isLike()) {
