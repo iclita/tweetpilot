@@ -9,10 +9,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Worker;
 use App\Post;
+use App\Video;
+use App\Link;
 use Illuminate\Support\Collection;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use DB;
 use App\Events\WorkerFinished;
+use Carbon\Carbon;
 
 class CampaignPublish implements ShouldQueue
 {
@@ -44,19 +47,103 @@ class CampaignPublish implements ShouldQueue
     }
 
     /**
+     * Get custom data to be posted associated with a given campaign.
+     *
+     * @param App\Campaign $campaign
+     * @return string
+     */
+    private function getCustomPost($campaign)
+    {
+        return $campaign->custom_message . ' ' . $campaign->custom_link;
+    }
+
+    /**
+     * Get video (growth) data to posted.
+     *
+     * @return string
+     */
+    private function getVideoPost()
+    {
+        // This means we should publish a growth (video) link
+        $video = Video::oldest('updated_at')->first();
+        // Move the video to the end of the stack
+        // This is done because we want to publish videos by rotation
+        $video->update(['updated_at' => Carbon::now()]);        
+        // Compose the data to be posted
+        return $video->title . ' ' . route('video.preview', ['id' => $video->id]);
+    }
+
+    /**
+     * Get link (money) data to posted.
+     *
+     * @return string
+     */
+    private function getLinkPost()
+    {
+        // This means we should publish a money (affiliate) link
+        $link = Link::oldest('updated_at')->first();
+        // Move the link to the end of the stack
+        // This is done because we want to publish links by rotation
+        $link->update(['updated_at' => Carbon::now()]);        
+        // Compose the data to be posted
+        return $link->description . ' ' . $link->url;
+    }
+
+    /**
+     * Get data to be posted associated with a given campaign on a given iteration.
+     *
+     * @param string $index
+     * @param string $step
+     * @param App\Campaign $campaign
+     * @return string
+     */
+    private function getPostData($index, $step, $campaign)
+    {
+        // If we have custom data then that is what should be posted
+        if ($this->isCustom()) {
+            return $this->getCustomPost($campaign);
+        } else {
+            // If we have $step 0 it means we have only link posts
+            if ($step === 0) {
+                return $this->getLinkPost();
+            }
+            // If we arrived here it means we have both types of posts (video and link)
+            if ($index % $step === 0) {
+                return $this->getVideoPost();
+            } else {
+                return $this->getLinkPost();
+            }
+        }
+    }
+
+    /**
      * Send post (tweet) requests to all tokens (users).
      *
      * @return void
      */
     private function sendPostRequests()
     {
+        // Get growth percentage from settings
+        $growth_percentage = settings('growth_percentage', 0);
+        // Calculate the number of posts that should be for growth (video links not money)
+        $num_growth = round(($growth_percentage * $this->tokens->count())/100);
+        // Get the step: To understand the step we need to give the following example:
+        // Say we have 100 tokens to process with growth_percentage of 20%
+        // This means num_growth will be 20*100/100=20
+        // Now if we do 100/20=5 we get the step
+        // The step of 5 means once every 5 iterations we must publish a video link
+        // The rest are money (affiliate) links
+        if ($num_growth === 0) {
+            $step = 0;
+        }else{
+            $step = round($this->tokens->count()/$num_growth); 
+        }
         // Get current campaign and other relevant data
         $campaign = $this->worker->campaign;
         $app_key = $campaign->website->app_key;
         $app_secret = $campaign->website->app_secret;
-        $message = $campaign->custom_message . ' ' . $campaign->custom_link;
 
-        foreach ($this->tokens as $token) {
+        foreach ($this->tokens as $index => $token) {
             // Stop the processing if the campaign has been stopped by the admin
             if ($campaign->isStopped()) {
                 return;
@@ -68,6 +155,8 @@ class CampaignPublish implements ShouldQueue
             try {
                 // Grab a Twitter connection
                 $connection = new TwitterOAuth($app_key, $app_secret, $token->access_token, $token->access_token_secret);
+                // Get the message to post
+                $message = $this->getPostData($index, $step, $campaign);
                 // Post on Twitter
                 $statuses = $connection->post('statuses/update', ['status' => $message]);
                 // Check for errors
@@ -194,15 +283,17 @@ class CampaignPublish implements ShouldQueue
     public function handle()
     {
         $campaign = $this->worker->campaign;
-        // Choose campaign type to start
-        if ($campaign->isPost()) {
-            $this->sendPostRequests();
-        } elseif ($campaign->isLike()) {
-            $this->sendLikeRequests();
-        } elseif ($campaign->isRetweet()) {
-            $this->sendRetweetRequests();
-        } else {
-            throw new \Exception('Unknown campaign type!');
+        // Choose campaign type to start only if we have tokens to process
+        if ( ! $this->tokens->isEmpty(()) {        
+            if ($campaign->isPost()) {
+                $this->sendPostRequests();
+            } elseif ($campaign->isLike()) {
+                $this->sendLikeRequests();
+            } elseif ($campaign->isRetweet()) {
+                $this->sendRetweetRequests();
+            } else {
+                throw new \Exception('Unknown campaign type!');
+            }
         }
         // Tell the world this worker has finished :)
         event(new WorkerFinished($this->worker));

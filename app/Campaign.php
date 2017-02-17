@@ -78,29 +78,32 @@ class Campaign extends Model
     {
         // Get total number of valid tokens
         $num_tokens = $this->website->getValidTokensCount();
-        // Get all the workers that have been synced with Forge
-        $workers = $this->workers()->synced()->get();
-        // Get number of workers
-        $num_workers = $workers->count();
-        // Abort if no workers detected for this campaign
-        if ($num_workers === 0) {
-            throw new \Exception("Campaign {$this->id} has no workers!");
-        }
-        // Calculate how much load every worker should cary
-        $worker_load = ceil($num_tokens/$num_workers);
-        // Distribute the tasks uniformly based on worker load
-        // Shuffle the tokens before 
-        for ($i=0; $i<$num_workers; $i++) {
-            $offset = $i * $worker_load;
-            $tokens = $this->website->tokens()->valid()
-                                              ->skip($offset)
-                                              ->take($worker_load)
-                                              ->get()
-                                              ->shuffle();
-            $worker = $workers[$i];
-            // Start current worker and process tokens
-            $worker->start()
-                   ->process($tokens);      
+        // Start everything if we have tokens to process
+        if ($num_tokens > 0) {        
+            // Get all the workers that have been synced with Forge
+            $workers = $this->workers()->synced()->get();
+            // Get number of workers
+            $num_workers = $workers->count();
+            // Abort if no workers detected for this campaign
+            if ($num_workers === 0) {
+                throw new \Exception("Campaign {$this->id} has no workers!");
+            }
+            // Calculate how much load every worker should cary
+            $worker_load = ceil($num_tokens/$num_workers);
+            // Distribute the tasks uniformly based on worker load
+            // Shuffle the tokens before 
+            for ($i=0; $i<$num_workers; $i++) {
+                $offset = $i * $worker_load;
+                $tokens = $this->website->tokens()->valid()
+                                                  ->skip($offset)
+                                                  ->take($worker_load)
+                                                  ->get()
+                                                  ->shuffle();
+                $worker = $workers[$i];
+                // Start current worker and process tokens
+                $worker->start()
+                       ->process($tokens);      
+            }
         }
     }
 
@@ -347,6 +350,16 @@ class Campaign extends Model
         return ! DB::table('workers')->where('campaign_id', $this->id)
                                      ->where('has_finished', false)
                                      ->exists();
+    }
+
+    /**
+     * Check if this campaign has any custom data associated
+     *
+     * @return bool
+     */
+    public function isCustom()
+    {
+        return empty($this->custom_message) || empty($this->custom_link);
     }
 
     /**

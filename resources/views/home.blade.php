@@ -31,21 +31,21 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <label>
-                                {{ Form::checkbox('is_auto', '1', settings('is_auto')) }} Automatic campaigns
+                                {{ Form::checkbox('is_auto', '1', settings('is_auto', false)) }} Automatic campaigns
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="settings-publish-interval">Campaigns/day</label>
-                            {{ Form::select('publish_interval', $publish_intervals, settings('publish_interval'), ['id'=>'settings-publish-interval', 'required']) }}
+                            {{ Form::select('publish_interval', $publish_intervals, settings('publish_interval', 24), ['id'=>'settings-publish-interval', 'required']) }}
                         </div>
                         <div class="form-group">
                             <label for="settings-growth-percentage">Growth percentage</label>
-                             {{ Form::select('growth_percentage', $growth_percentages, settings('growth_percentage'), ['id'=>'settings-growth-percentage', 'required']) }}
+                             {{ Form::select('growth_percentage', $growth_percentages, settings('growth_percentage', 0), ['id'=>'settings-growth-percentage', 'required']) }}
                         </div>
                         <div class="form-group">
                             <label for="num-workers">Number of workers</label>
-                            <input type="number" name="num_workers" value="{{ settings('num_workers') }}" style="max-width:100px;" class="form-control" id="num-workers" required />
+                            <input type="number" name="num_workers" value="{{ settings('num_workers', 1) }}" style="max-width:100px;" class="form-control" id="num-workers" required />
                         </div>
                         <button type="submit" style="float:right;margin-top:-51px;" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Change</button>
                     </form>

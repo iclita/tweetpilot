@@ -29,24 +29,25 @@ if ( ! function_exists('settings'))
 	 * Get the campaign general settings by key.
 	 *
 	 * @param  string  $key
+	 * @param  string  $default
 	 * @return string
 	 */
-	function settings($key)
+	function settings($key, $default)
 	{
 		$value = '';
 
 		switch ($key) {
 			case 'is_auto':
-				$value = \App\Services\Settings::get('is_auto');
+				$value = \App\Services\Settings::get('is_auto', $default);
 				break;
 			case 'publish_interval':
-				$value = \App\Services\Settings::get('publish_interval');
+				$value = \App\Services\Settings::get('publish_interval', $default);
 				break;
 			case 'growth_percentage':
-				$value = \App\Services\Settings::get('growth_percentage');
+				$value = \App\Services\Settings::get('growth_percentage', $default);
 				break;
 			case 'num_workers':
-				$value = \App\Services\Settings::get('num_workers');
+				$value = \App\Services\Settings::get('num_workers', $default);
 				break;
 			default:
 				throw new \Exception("Unknown settings key: {$key}");

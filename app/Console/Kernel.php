@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \App\Console\Commands\PublishPosts::class,
+        \App\Console\Commands\DeleteTokens::class,
     ];
 
     /**
@@ -24,8 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('amapilot:publish-posts --queue=cron')
+                 ->everyFiveMinutes();
+        // $schedule->command('amapilot:delete-tokens --queue=cron')
+        //          ->daily();
     }
 
     /**
