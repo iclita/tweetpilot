@@ -18,6 +18,18 @@
                 <strong>{{ session()->get('warning') }}</strong>
             </div>
         @endif
+        @unless ($hasVideos)
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>You have no videos. Campaigns will not work properly!</strong>
+            </div>
+        @endunless
+        @unless ($hasLinks)
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>You have no links. Campaigns will not work properly!</strong>
+            </div>
+        @endunless
         <div class="row">
             <div class="col-md-12">
                 <h4 style="float:left;"><strong>Campaigns</strong></h4>

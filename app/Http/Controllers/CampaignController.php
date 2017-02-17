@@ -6,6 +6,7 @@ use App\Campaign;
 use App\Website;
 use Illuminate\Http\Request;
 use App\Services\ValidatesTweet;
+use DB;
 
 class CampaignController extends Controller
 {
@@ -32,7 +33,11 @@ class CampaignController extends Controller
     public function index()
     {
         $campaigns = Campaign::all();
-        return view('campaigns.index', compact('campaigns'));
+        // If we have no videos, campaigns will not run without custom data
+        $hasVideos = DB::table('videos')->count() > 0;
+        // If we have no links, campaigns will not run without custom data
+        $hasLinks = DB::table('links')->count() > 0;
+        return view('campaigns.index', compact('campaigns', 'hasVideos', 'hasLinks'));
     }
 
     /**

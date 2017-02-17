@@ -66,6 +66,10 @@ class CampaignPublish implements ShouldQueue
     {
         // This means we should publish a growth (video) link
         $video = Video::oldest('updated_at')->first();
+        // Abort if no video was found
+        if (is_null($video)) {
+            throw new \Exception('You have no videos!');
+        }
         // Move the video to the end of the stack
         // This is done because we want to publish videos by rotation
         $video->update(['updated_at' => Carbon::now()]);        
@@ -82,6 +86,10 @@ class CampaignPublish implements ShouldQueue
     {
         // This means we should publish a money (affiliate) link
         $link = Link::oldest('updated_at')->first();
+        // Abort if no link was found
+        if (is_null($link)) {
+            throw new \Exception('You have no links!');
+        }
         // Move the link to the end of the stack
         // This is done because we want to publish links by rotation
         $link->update(['updated_at' => Carbon::now()]);        
