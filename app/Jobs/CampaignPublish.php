@@ -101,8 +101,8 @@ class CampaignPublish implements ShouldQueue
     /**
      * Get data to be posted associated with a given campaign on a given iteration.
      *
-     * @param string $index
-     * @param string $step
+     * @param int $index
+     * @param int $step
      * @param App\Campaign $campaign
      * @return string
      */
