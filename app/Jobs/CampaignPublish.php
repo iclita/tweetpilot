@@ -11,6 +11,7 @@ use App\Worker;
 use App\Post;
 use App\Video;
 use App\Link;
+use App\Campaign;
 use Illuminate\Support\Collection;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use DB;
@@ -52,7 +53,7 @@ class CampaignPublish implements ShouldQueue
      * @param App\Campaign $campaign
      * @return string
      */
-    private function getCustomPost($campaign)
+    private function getCustomPost(Campaign $campaign)
     {
         return $campaign->custom_message . ' ' . $campaign->custom_link;
     }
@@ -105,13 +106,13 @@ class CampaignPublish implements ShouldQueue
      * @param App\Campaign $campaign
      * @return string
      */
-    private function getPostData($index, $step, $campaign)
+    private function getPostData($index, $step, Campaign $campaign)
     {
         // If we have custom data then that is what should be posted
         if ($campaign->isCustom()) {
             return $this->getCustomPost($campaign);
         } else {
-            // If we have $step 0 it means we have only link posts
+            // If we have $step=0 it means we have only link posts
             if ($step === 0) {
                 return $this->getLinkPost();
             }
