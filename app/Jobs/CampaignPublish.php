@@ -7,16 +7,16 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use DB;
 use App\Worker;
 use App\Post;
 use App\Video;
 use App\Link;
 use App\Campaign;
-use Illuminate\Support\Collection;
-use Abraham\TwitterOAuth\TwitterOAuth;
-use DB;
-use App\Events\WorkerFinished;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use App\Events\WorkerFinished;
+use Abraham\TwitterOAuth\TwitterOAuth;
 
 class CampaignPublish implements ShouldQueue
 {
@@ -148,7 +148,7 @@ class CampaignPublish implements ShouldQueue
         $campaign = $this->worker->campaign;
         $app_key = $campaign->website->app_key;
         $app_secret = $campaign->website->app_secret;
-
+        // Loop through all the tokens
         foreach ($this->tokens as $index => $token) {
             // Stop the processing if the campaign has been stopped by the admin
             if ($campaign->isStopped()) {
@@ -200,7 +200,7 @@ class CampaignPublish implements ShouldQueue
         $campaign = $this->worker->campaign;
         $app_key = $campaign->website->app_key;
         $app_secret = $campaign->website->app_secret;
-
+        // Loop through all the tokens
         foreach ($this->tokens as $token) {
             // Stop the processing if the campaign has been stopped by the admin
             if ($campaign->isStopped()) {
@@ -246,7 +246,7 @@ class CampaignPublish implements ShouldQueue
         $campaign = $this->worker->campaign;
         $app_key = $campaign->website->app_key;
         $app_secret = $campaign->website->app_secret;
-
+        // Loop through all the tokens
         foreach ($this->tokens as $token) {
             // Stop the processing if the campaign has been stopped by the admin
             if ($campaign->isStopped()) {
