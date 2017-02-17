@@ -133,10 +133,10 @@ class CampaignPublish implements ShouldQueue
         // Now if we do 100/20=5 we get the step
         // The step of 5 means once every 5 iterations we must publish a video link
         // The rest are money (affiliate) links
-        if ($num_growth === 0) {
-            $step = 0;
-        }else{
+        if ($num_growth > 0) {
             $step = round($this->tokens->count()/$num_growth); 
+        } else {
+            $step = 0;
         }
         // Get current campaign and other relevant data
         $campaign = $this->worker->campaign;
