@@ -42,10 +42,9 @@ class PublishPosts extends Command
         // Set the time when this cron last ran if necessary
         Manager::setLastRunIfNotExists();
         // Check if we shoud start the campaigns
-        if (Manager::shouldRunCampaigns()) {
-            foreach (Campaign::with('website.tokens')->active()->get() as $campaign) {
-                $campaign->start();
-            }
+        if (Manager::shouldRun()) {
+            // Start all active campaigns
+            Manager::run();
         }
     }
 }

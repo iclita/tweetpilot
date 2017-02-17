@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Services\Settings;
 use Carbon\Carbon;
+use App\Campaign;
 
 class CampaignsManager
 {
@@ -25,7 +26,7 @@ class CampaignsManager
      *
      * @return bool
      */
-    public static function shouldRunCampaigns()
+    public static function shouldRun()
     {
         // First check if settings are on auto (this is the first condition to start the cron)
         if (Settings::get('is_auto', false)) {
@@ -40,5 +41,17 @@ class CampaignsManager
             return false;
         }
         return false;
+    }
+
+    /**
+     * Run all active campaigns.
+     *
+     * @return void
+     */
+    public static function run()
+    {
+        foreach (Campaign::with('website.tokens')->active()->get() as $campaign) {
+            $campaign->start();
+        }
     }
 }
