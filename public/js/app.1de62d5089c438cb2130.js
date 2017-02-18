@@ -11298,17 +11298,11 @@ var pusher = new Pusher('3253fee694d3d95ecc4b', {
 });
 
 var channel = pusher.subscribe('campaign-started');
-channel.bind('campaign.started', function (data) {
-	console.log(data);
+channel.bind('campaign.started', function (e) {
+	var campaign_id = e.id;
+	var buttons = $('table').find("[data-action='" + campaign_id + "']");
+	buttons.filter('.start-campaign').click();
 });
-
-// Echo.channel('campaign-started')
-//     .listen('.campaign.started', (e) => {
-//         // let campaign_id = e.id;
-//         console.log(e);
-//         // let buttons = $('table').find("[data-action='" + campaign_id + "']");
-//         // buttons.filter('.start-campaign').click();
-//     });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
@@ -12238,7 +12232,7 @@ __webpack_require__(42);
 
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
-//     key: '3253fee694d3d95ecc4b'
+//     key: 'your-pusher-key'
 // });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 

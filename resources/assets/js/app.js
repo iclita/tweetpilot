@@ -106,22 +106,16 @@ $('.resume-campaign').click(function() {
 		 .catch((error) => console.log(error));
 });
 
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
+// Enable pusher logging - don't include this in production
+Pusher.logToConsole = true;
 
-    var pusher = new Pusher('3253fee694d3d95ecc4b', {
-      encrypted: true
-    });
+var pusher = new Pusher('3253fee694d3d95ecc4b', {
+  encrypted: true
+});
 
-    var channel = pusher.subscribe('campaign-started');
-    channel.bind('campaign.started', function(data) {
-      console.log(data);
-    });
-
-// Echo.channel('campaign-started')
-//     .listen('.campaign.started', (e) => {
-//         // let campaign_id = e.id;
-//         console.log(e);
-//         // let buttons = $('table').find("[data-action='" + campaign_id + "']");
-//         // buttons.filter('.start-campaign').click();
-//     });
+var channel = pusher.subscribe('campaign-started');
+channel.bind('campaign.started', function(e) {
+    let campaign_id = e.id;
+    let buttons = $('table').find("[data-action='" + campaign_id + "']");
+    buttons.filter('.start-campaign').click();
+});
