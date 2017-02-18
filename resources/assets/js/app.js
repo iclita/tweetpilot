@@ -105,3 +105,8 @@ $('.resume-campaign').click(function() {
 		 })
 		 .catch((error) => console.log(error));
 });
+
+Echo.channel('campaign-started')
+    .listen('campaign.started', (e) => {
+        console.log(e.id);
+    });
