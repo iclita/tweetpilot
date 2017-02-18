@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('title')
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -109,6 +109,6 @@
     </script>
     @endif
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
 </body>
 </html>
