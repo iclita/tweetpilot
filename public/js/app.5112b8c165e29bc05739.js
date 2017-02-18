@@ -11290,13 +11290,12 @@ $('.resume-campaign').click(function () {
 	});
 });
 
-// Echo.channel('campaign-started')
-//     .listen('campaign.started', (e) => {
-//         let campaign_id = e.id;
-//         console.log(e);
-//         let buttons = $('table').find("[data-action='" + campaign_id + "']");
-//         buttons.filter('.start-campaign').click();
-//     });
+Echo.channel('campaign-started').listen('campaign.started', function (e) {
+	var campaign_id = e.id;
+	console.log(e);
+	// let buttons = $('table').find("[data-action='" + campaign_id + "']");
+	// buttons.filter('.start-campaign').click();
+});
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
