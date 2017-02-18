@@ -11292,6 +11292,7 @@ $('.resume-campaign').click(function () {
 
 Echo.channel('campaign-started').listen('campaign.started', function (e) {
 	var campaign_id = e.id;
+	console.log(e);
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.start-campaign').click();
 });
@@ -12227,8 +12228,7 @@ __webpack_require__(45);
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   broadcaster: 'pusher',
-  key: '3253fee694d3d95ecc4b',
-  encrypted: true
+  key: '3253fee694d3d95ecc4b'
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
