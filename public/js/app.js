@@ -11291,7 +11291,9 @@ $('.resume-campaign').click(function () {
 });
 
 Echo.channel('campaign-started').listen('campaign.started', function (e) {
-	alert(e.id);
+	var campaign_id = e.id;
+	var buttons = $('table').find("[data-action='" + campaign_id + "']");
+	buttons.filter('.start-campaign').click();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 

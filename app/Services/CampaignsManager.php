@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Services\Settings;
 use Carbon\Carbon;
 use App\Campaign;
+use App\Events\CampaignStarted;
 
 class CampaignsManager
 {
@@ -44,6 +45,7 @@ class CampaignsManager
     {
         foreach (Campaign::with('website.tokens')->active()->get() as $campaign) {
             $campaign->start();
+            event(new CampaignStarted($campaign));
         }
     }
 }

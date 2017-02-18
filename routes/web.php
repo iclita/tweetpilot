@@ -12,10 +12,7 @@
 */
 
 Route::get('test', function(){
-
-	$campaign = \App\Campaign::first();
-	event(new \App\Events\CampaignStarted($campaign));
-
+	\App\Services\CampaignsManager::run();
 });
 
 // Login Redirect Route...

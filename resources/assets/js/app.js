@@ -108,5 +108,7 @@ $('.resume-campaign').click(function() {
 
 Echo.channel('campaign-started')
     .listen('campaign.started', (e) => {
-        alert(e.id);
+        let campaign_id = e.id;
+        let buttons = $('table').find("[data-action='" + campaign_id + "']");
+        buttons.filter('.start-campaign').click();
     });
