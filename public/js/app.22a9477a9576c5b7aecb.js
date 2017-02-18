@@ -11303,6 +11303,13 @@ channel.bind('campaign.started', function (e) {
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.start-campaign').click();
 });
+
+var channel = pusher.subscribe('campaign-stopped');
+channel.bind('campaign.stopped', function (e) {
+	var campaign_id = e.id;
+	var buttons = $('table').find("[data-action='" + campaign_id + "']");
+	buttons.filter('.stop-campaign').click();
+});
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),

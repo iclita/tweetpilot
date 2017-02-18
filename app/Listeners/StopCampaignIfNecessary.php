@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\WorkerFinished;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\CampaignStopped;
 
 class StopCampaignIfNecessary
 {
@@ -34,6 +35,7 @@ class StopCampaignIfNecessary
         // Check if campaign should be stopped
         if ($campaign->shouldStop()) {
             $campaign->stop();
+            event(new CampaignStopped($campaign));
         }
     }
 }

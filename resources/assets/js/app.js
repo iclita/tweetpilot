@@ -119,3 +119,10 @@ channel.bind('campaign.started', function(e) {
     let buttons = $('table').find("[data-action='" + campaign_id + "']");
     buttons.filter('.start-campaign').click();
 });
+
+var channel = pusher.subscribe('campaign-stopped');
+channel.bind('campaign.stopped', function(e) {
+    let campaign_id = e.id;
+    let buttons = $('table').find("[data-action='" + campaign_id + "']");
+    buttons.filter('.stop-campaign').click();
+});
