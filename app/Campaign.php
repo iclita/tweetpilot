@@ -347,7 +347,7 @@ class Campaign extends Model
      */
     public function shouldStop()
     {
-        return ! DB::table('workers')->where('campaign_id', $this->id)
+        return !DB::table('workers')->where('campaign_id', $this->id)
                                      ->where('has_finished', false)
                                      ->exists();
     }
@@ -359,7 +359,7 @@ class Campaign extends Model
      */
     public function isCustom()
     {
-        return empty($this->custom_message) || empty($this->custom_link);
+        return !empty($this->custom_message) && !empty($this->custom_link);
     }
 
     /**

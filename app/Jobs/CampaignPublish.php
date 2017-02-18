@@ -175,7 +175,7 @@ class CampaignPublish implements ShouldQueue
                     $error_data = ['type' => 'post', 'message' => "Post Error! Token: {$token->user_id}"];
                     DB::table('errors')->insert($error_data);
                     // Token is not valid anymore :( 
-                    $token->invalidate();
+                    // $token->invalidate();
                 }
             } catch(\Exception $e) {
                 $error_data = ['type' => 'post', 'message' => $e->getMessage()];
