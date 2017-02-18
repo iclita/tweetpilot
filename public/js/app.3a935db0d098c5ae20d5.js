@@ -11290,7 +11290,7 @@ $('.resume-campaign').click(function () {
 	});
 });
 
-Echo.channel('campaign-started').listen('CampaignStarted', function (e) {
+Echo.channel('campaign-started').listen('.campaign.started', function (e) {
 	// let campaign_id = e.id;
 	console.log(e);
 	// let buttons = $('table').find("[data-action='" + campaign_id + "']");
