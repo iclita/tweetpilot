@@ -106,10 +106,10 @@ $('.resume-campaign').click(function() {
 		 .catch((error) => console.log(error));
 });
 
-Echo.channel('campaign-started')
-    .listen('campaign.started', (e) => {
-        let campaign_id = e.id;
-        console.log(e);
-        let buttons = $('table').find("[data-action='" + campaign_id + "']");
-        buttons.filter('.start-campaign').click();
-    });
+// Echo.channel('campaign-started')
+//     .listen('campaign.started', (e) => {
+//         let campaign_id = e.id;
+//         console.log(e);
+//         let buttons = $('table').find("[data-action='" + campaign_id + "']");
+//         buttons.filter('.start-campaign').click();
+//     });

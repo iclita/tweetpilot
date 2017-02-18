@@ -123,7 +123,7 @@
 
     var channel = pusher.subscribe('campaign-started');
     channel.bind('campaign.started', function(data) {
-      alert(data.id);
+      console.log(data);
     });
   </script>
 
