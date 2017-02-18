@@ -49,15 +49,15 @@ class CampaignStarted implements ShouldBroadcast
         return new Channel('campaign-started');
     }
 
-    /**
-     * The event's broadcast name.
-     *
-     * @return string
-     */
-    public function broadcastAs()
-    {
-        return 'campaign.started';
-    }
+    // /**
+    //  * The event's broadcast name.
+    //  *
+    //  * @return string
+    //  */
+    // public function broadcastAs()
+    // {
+    //     return 'campaign.started';
+    // }
 
     /**
      * Get the data to broadcast.
