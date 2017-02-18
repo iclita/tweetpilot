@@ -11292,18 +11292,18 @@ $('.resume-campaign').click(function () {
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true;
-
+// Instantiate pusher
 var pusher = new Pusher('3253fee694d3d95ecc4b', {
 	encrypted: true
 });
-
+// Receive start campaign push notifications
 var channel = pusher.subscribe('campaign-started');
 channel.bind('campaign.started', function (e) {
 	var campaign_id = e.id;
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.start-campaign').click();
 });
-
+// Receive stop campaign push notifications
 var channel = pusher.subscribe('campaign-stopped');
 channel.bind('campaign.stopped', function (e) {
 	var campaign_id = e.id;
