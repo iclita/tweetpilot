@@ -11312,11 +11312,6 @@ pusher.subscribe('campaign-stopped').bind('campaign.stopped', function (e) {
 	var campaign_id = e.id;
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.stop-campaign').click();
-	// buttons.filter('.campaign-action').hide();
-	// buttons.filter('.start-campaign').show();
-	// let icons = $('table').find("[data-status='" + campaign_id + "']");
-	// icons.filter('.campaign-status').hide();
-	// icons.filter('.stopped-status-icon').show();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
