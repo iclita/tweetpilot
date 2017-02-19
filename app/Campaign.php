@@ -354,14 +354,18 @@ class Campaign extends Model
      */
     public function canStart()
     {
+        // Check if this campaign is active in the first place
+        // if ( ! $this->active) {
+        //     return false;
+        // }
         // Check if this campaign has workers
         $hasWorkers = DB::table('workers')->where('is_synced', true)
                                           ->where('campaign_id', $this->id)
                                           ->exists();
         // If no workers found the campaign cannot start
-        if ( ! $hasWorkers) {
-            return false;
-        }
+        // if ( ! $hasWorkers) {
+        //     return false;
+        // }
         // Check if this campaign has tokens
         $hasTokens = DB::table('tokens')->join('websites', 'tokens.website_id', '=', 'tokens.id')
                                         ->join('campaigns', 'campaigns.website_id', '=', 'campaigns.id')
@@ -369,7 +373,7 @@ class Campaign extends Model
                                         ->where('campaigns.id', $this->id)
                                         ->exists();
         // Start only if it has workers and tokens
-        return $hasTokens;
+        return compact('hasWorkers', 'hasTokens');
     }
 
     /**
