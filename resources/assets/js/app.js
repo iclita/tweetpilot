@@ -128,6 +128,7 @@ channel.bind('campaign.started', function(e) {
 var channel = pusher.subscribe('campaign-stopped');
 channel.bind('campaign.stopped', function(e) {
     let campaign_id = e.id;
+    console.log(campaign_id);
 	let buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.campaign-action').hide();
 	buttons.filter('.start-campaign').show();
