@@ -45,7 +45,7 @@ class CampaignsManager
     {
         foreach (Campaign::with('website.tokens')->active()->get() as $campaign) {
             $campaign->start();
-            // event(new CampaignStarted($campaign));
+            event(new CampaignStarted($campaign));
         }
     }
 }
