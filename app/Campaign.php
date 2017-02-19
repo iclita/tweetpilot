@@ -341,6 +341,20 @@ class Campaign extends Model
     }
 
     /**
+     * Check if a campaign has tokens to start
+     *
+     * @return bool
+     */
+    public function shouldStart()
+    {
+        return DB::table('tokens')->join('websites', 'tokens.website_id', '=', 'tokens.id')
+                                  ->join('campaigns', 'campaign.website_id', '=', 'campaigns.id')
+                                  ->where('tokens.valid', true)
+                                  ->where('campaigns.id', $this->id)
+                                  ->exists();
+    }
+
+    /**
      * Check if all workers have finished to stop the campaign
      *
      * @return bool
