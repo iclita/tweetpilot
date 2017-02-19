@@ -11297,8 +11297,8 @@ var pusher = new Pusher('3253fee694d3d95ecc4b', {
 	encrypted: true
 });
 // Receive start campaign push notifications
-var channel = pusher.subscribe('campaign-started');
-channel.bind('campaign.started', function (e) {
+var start_channel = pusher.subscribe('campaign-started');
+start_channel.bind('campaign.started', function (e) {
 	var campaign_id = e.id;
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.campaign-action').hide();
@@ -11309,10 +11309,9 @@ channel.bind('campaign.started', function (e) {
 	icons.filter('.running-status-icon').show();
 });
 // Receive stop campaign push notifications
-var channel = pusher.subscribe('campaign-stopped');
-channel.bind('campaign.stopped', function (e) {
+var stop_channel = pusher.subscribe('campaign-stopped');
+stop_channel.bind('campaign.stopped', function (e) {
 	var campaign_id = e.id;
-	console.log(campaign_id);
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.campaign-action').hide();
 	buttons.filter('.start-campaign').show();
