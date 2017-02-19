@@ -348,7 +348,7 @@ class Campaign extends Model
     public function shouldStart()
     {
         return DB::table('tokens')->join('websites', 'tokens.website_id', '=', 'tokens.id')
-                                  ->join('campaigns', 'campaign.website_id', '=', 'campaigns.id')
+                                  ->join('campaigns', 'campaigns.website_id', '=', 'campaigns.id')
                                   ->where('tokens.valid', true)
                                   ->where('campaigns.id', $this->id)
                                   ->exists();
