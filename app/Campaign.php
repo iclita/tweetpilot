@@ -354,10 +354,6 @@ class Campaign extends Model
      */
     public function canStart()
     {
-        // Check if this campaign is active in the first place
-        if ( ! $this->active) {
-            return false;
-        }
         // Check if this campaign has workers
         $hasWorkers = DB::table('workers')->where('is_synced', true)
                                           ->where('campaign_id', $this->id)
