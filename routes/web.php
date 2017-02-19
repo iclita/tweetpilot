@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('test/{id}', function($id){
-	$campaign = \App\Campaign::find($id);
-	dd($campaign->canStart());
+Route::get('test', function(){
+	\App\Services\CampaignsManager::run();
 });
 
 // Login Redirect Route...
