@@ -244,8 +244,15 @@ class Campaign extends Model
      */
     public function displayAction()
     {
+        // First check if this campaign can start (has workers and tokens)
+        // If campaign is cannot to start disable start and resume buttons
+        if ($this->canStart()) {
+            $disabled = '';
+        } else {
+            $disabled = 'disabled';
+        }
         if ($this->isStopped()) {
-            return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
+            return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action' {$disabled}><i class='fa fa-play' aria-hidden='true'></i> Start</button>
                     <button type='button' data-action={$this->id} class='btn btn-danger btn-sm stop-campaign campaign-action' style='display:none;'><i class='fa fa-stop' aria-hidden='true'></i> Stop</button>
                     <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action' style='display:none;'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
                     <button type='button' data-action={$this->id} class='btn btn-warning btn-sm resume-campaign campaign-action' style='display:none;'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";
@@ -258,7 +265,7 @@ class Campaign extends Model
             return "<button type='button' data-action={$this->id} class='btn btn-success btn-sm start-campaign campaign-action' style='display:none;'><i class='fa fa-play' aria-hidden='true'></i> Start</button>
                     <button type='button' data-action={$this->id} class='btn btn-danger btn-sm stop-campaign campaign-action' style='display:none;'><i class='fa fa-stop' aria-hidden='true'></i> Stop</button>
                     <button type='button' data-action={$this->id} class='btn btn-primary btn-sm pause-campaign campaign-action' style='display:none;'><i class='fa fa-pause' aria-hidden='true'></i> Pause</button>
-                    <button type='button' data-action={$this->id} class='btn btn-warning btn-sm resume-campaign campaign-action'><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";            
+                    <button type='button' data-action={$this->id} class='btn btn-warning btn-sm resume-campaign campaign-action' {$disabled}><i class='fa fa-step-forward' aria-hidden='true'></i> Resume</button>";            
         } else {
             throw new \Exception('Unknown campaign action!');
         }
@@ -341,17 +348,28 @@ class Campaign extends Model
     }
 
     /**
-     * Check if a campaign has tokens to start
+     * Check if a campaign has tokens and workers to start
      *
      * @return bool
      */
-    public function shouldStart()
+    public function canStart()
     {
-        return DB::table('tokens')->join('websites', 'tokens.website_id', '=', 'tokens.id')
-                                  ->join('campaigns', 'campaigns.website_id', '=', 'campaigns.id')
-                                  ->where('tokens.valid', true)
-                                  ->where('campaigns.id', $this->id)
-                                  ->exists();
+        // Check if this campaign has workers
+        $hasWorkers = DB::table('workers')->where('campaign_id', $this->id)
+                                          ->where('is_synced', true)
+                                          ->exists();
+        // If no workers found the campaign cannot start
+        if ( ! $hasWorkers) {
+            return false;
+        }
+        // Check if this campaign has tokens
+        $hasTokens = DB::table('tokens')->join('websites', 'tokens.website_id', '=', 'tokens.id')
+                                        ->join('campaigns', 'campaigns.website_id', '=', 'campaigns.id')
+                                        ->where('tokens.valid', true)
+                                        ->where('campaigns.id', $this->id)
+                                        ->exists();
+        // Start only if it has workers and tokens
+        return $hasTokens;
     }
 
     /**
@@ -362,8 +380,8 @@ class Campaign extends Model
     public function shouldStop()
     {
         return !DB::table('workers')->where('campaign_id', $this->id)
-                                     ->where('has_finished', false)
-                                     ->exists();
+                                    ->where('has_finished', false)
+                                    ->exists();
     }
 
     /**
