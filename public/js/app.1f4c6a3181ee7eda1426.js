@@ -15433,7 +15433,7 @@ Pusher.logToConsole = true;
 // });
 
 // Receive start campaign push notifications
-Echo.channel('campaign-started').listen('campaign.started', function (e) {
+Echo.channel('campaign-started').listen('.campaign.started', function (e) {
 	var campaign_id = e.id;
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.campaign-action').hide();
@@ -15445,7 +15445,7 @@ Echo.channel('campaign-started').listen('campaign.started', function (e) {
 });
 
 // Receive stop campaign push notifications
-Echo.channel('campaign-stopped').listen('campaign.stopped', function (e) {
+Echo.channel('campaign-stopped').listen('.campaign.stopped', function (e) {
 	var campaign_id = e.id;
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.campaign-action').hide();

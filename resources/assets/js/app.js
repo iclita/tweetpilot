@@ -115,7 +115,7 @@ Pusher.logToConsole = true;
 
 // Receive start campaign push notifications
 Echo.channel('campaign-started')
-    .listen('campaign.started', (e) => {
+    .listen('.campaign.started', (e) => {
 	    let campaign_id = e.id;
 		let buttons = $('table').find("[data-action='" + campaign_id + "']");
 		buttons.filter('.campaign-action').hide();
@@ -125,10 +125,10 @@ Echo.channel('campaign-started')
 		icons.filter('.campaign-status').hide();
 		icons.filter('.running-status-icon').show();
     });
-    
+
 // Receive stop campaign push notifications
 Echo.channel('campaign-stopped')
-    .listen('campaign.stopped', (e) => {
+    .listen('.campaign.stopped', (e) => {
 	    let campaign_id = e.id;
 		let buttons = $('table').find("[data-action='" + campaign_id + "']");
 		buttons.filter('.campaign-action').hide();
