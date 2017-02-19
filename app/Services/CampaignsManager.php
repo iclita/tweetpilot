@@ -44,8 +44,8 @@ class CampaignsManager
     public static function run()
     {
         foreach (Campaign::with('website.tokens')->active()->get() as $campaign) {
-            $campaign->start();
             event(new CampaignStarted($campaign));
+            $campaign->start();
         }
     }
 }
