@@ -367,11 +367,7 @@ class Campaign extends Model
         //     return false;
         // }
         // Check if this campaign has tokens
-        $hasTokens = DB::table('tokens')->join('websites', 'tokens.website_id', '=', 'tokens.id')
-                                        ->join('campaigns', 'campaigns.website_id', '=', 'campaigns.id')
-                                        ->where('tokens.valid', true)
-                                        ->where('campaigns.id', $this->id)
-                                        ->exists();
+        $hasTokens = $this->website->getValidTokensCount() > 0;
         // Start only if it has workers and tokens
         return compact('hasWorkers', 'hasTokens');
     }
