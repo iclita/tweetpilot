@@ -21,6 +21,7 @@ class Link extends Model
     protected $fillable = [
     	'description',
         'url',
+        'updated_at',
     ];
 
     /**
