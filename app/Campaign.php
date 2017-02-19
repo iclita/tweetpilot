@@ -355,8 +355,8 @@ class Campaign extends Model
     public function canStart()
     {
         // Check if this campaign has workers
-        $hasWorkers = DB::table('workers')->where('campaign_id', $this->id)
-                                          ->where('is_synced', true)
+        $hasWorkers = DB::table('workers')->where('is_synced', true)
+                                          ->where('campaign_id', $this->id)
                                           ->exists();
         // If no workers found the campaign cannot start
         if ( ! $hasWorkers) {
