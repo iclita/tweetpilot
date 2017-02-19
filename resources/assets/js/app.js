@@ -109,11 +109,11 @@ $('.resume-campaign').click(function() {
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true;
 // Instantiate pusher
-var pusher = new Pusher('3253fee694d3d95ecc4b', {
+let pusher = new Pusher('3253fee694d3d95ecc4b', {
   encrypted: true
 });
 // Receive start campaign push notifications
-var start_channel = pusher.subscribe('campaign-started');
+let start_channel = pusher.subscribe('campaign-started');
 start_channel.bind('campaign.started', function(e) {
     let campaign_id = e.id;
 	let buttons = $('table').find("[data-action='" + campaign_id + "']");
@@ -125,9 +125,10 @@ start_channel.bind('campaign.started', function(e) {
 	icons.filter('.running-status-icon').show();
 });
 // Receive stop campaign push notifications
-var stop_channel = pusher.subscribe('campaign-stopped');
+let stop_channel = pusher.subscribe('campaign-stopped');
 stop_channel.bind('campaign.stopped', function(e) {
     let campaign_id = e.id;
+    alert('Finished:' + campaign_id);
 	let buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.campaign-action').hide();
 	buttons.filter('.start-campaign').show();
