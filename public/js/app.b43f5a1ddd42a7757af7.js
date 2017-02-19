@@ -11313,11 +11313,7 @@ var stop_channel = pusher.subscribe('campaign-stopped');
 stop_channel.bind('campaign.stopped', function (e) {
 	var campaign_id = e.id;
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
-	buttons.filter('.campaign-action').hide();
-	buttons.filter('.start-campaign').show();
-	var icons = $('table').find("[data-status='" + campaign_id + "']");
-	icons.filter('.campaign-status').hide();
-	icons.filter('.stopped-status-icon').show();
+	buttons.filter('.stop-campaign').click();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
