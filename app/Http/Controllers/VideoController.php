@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Video;
+use App\Website;
 use Illuminate\Http\Request;
 use App\Services\ValidatesTweet;
+use DB;
 
 class VideoController extends Controller
 {
@@ -17,9 +19,15 @@ class VideoController extends Controller
      */
     private function simulateTweet()
     {
+        // Get the website with the longest name to be sure
+        $website = Website::orderByRaw("CHAR_LENGTH(url) desc")->first();
+        // Get the maximum video id value and add 1 for the current one
+        $video_id = DB::table('videos')->max('id') + 1;
+        $link = $website->getFullUrl() . "/video/{$video_id}/preview";
+
         return [
             'message' => request('title'),
-            'link'    => 'https://www.youtube.com/watch?v=' . request('slug'),
+            'link'    => $link,
         ];
     }
     
