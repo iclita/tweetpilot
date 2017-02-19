@@ -108,9 +108,13 @@ $('.resume-campaign').click(function() {
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true;
-
-Echo.channel('campaign-started')
-    .listen('.campaign.started', (e) => {
+// Instantiate pusher
+let pusher = new Pusher('3253fee694d3d95ecc4b', {
+  encrypted: true
+});
+// Receive start campaign push notifications
+pusher.subscribe('campaign-started')
+	  .bind('campaign.started', function(e) {
 	    let campaign_id = e.id;
 		let buttons = $('table').find("[data-action='" + campaign_id + "']");
 		buttons.filter('.campaign-action').hide();
@@ -119,10 +123,10 @@ Echo.channel('campaign-started')
 		let icons = $('table').find("[data-status='" + campaign_id + "']");
 		icons.filter('.campaign-status').hide();
 		icons.filter('.running-status-icon').show();
-    });
-
-Echo.channel('campaign-stopped')
-    .listen('.campaign.stopped', (e) => {
+	  });
+// Receive stop campaign push notifications
+pusher.subscribe('campaign-stopped')
+	  .bind('campaign.stopped', function(e) {
 	    let campaign_id = e.id;
 		let buttons = $('table').find("[data-action='" + campaign_id + "']");
 		buttons.filter('.campaign-action').hide();
@@ -130,33 +134,4 @@ Echo.channel('campaign-stopped')
 		let icons = $('table').find("[data-status='" + campaign_id + "']");
 		icons.filter('.campaign-status').hide();
 		icons.filter('.stopped-status-icon').show();
-    });
-
-
-// // Instantiate pusher
-// let pusher = new Pusher('3253fee694d3d95ecc4b', {
-//   encrypted: true
-// });
-// // Receive start campaign push notifications
-// let start_channel = pusher.subscribe('campaign-started');
-// start_channel.bind('campaign.started', function(e) {
-//     let campaign_id = e.id;
-// 	let buttons = $('table').find("[data-action='" + campaign_id + "']");
-// 	buttons.filter('.campaign-action').hide();
-// 	buttons.filter('.stop-campaign').show();
-// 	buttons.filter('.pause-campaign').show();
-// 	let icons = $('table').find("[data-status='" + campaign_id + "']");
-// 	icons.filter('.campaign-status').hide();
-// 	icons.filter('.running-status-icon').show();
-// });
-// // Receive stop campaign push notifications
-// let stop_channel = pusher.subscribe('campaign-stopped');
-// stop_channel.bind('campaign.stopped', function(e) {
-//     let campaign_id = e.id;
-// 	let buttons = $('table').find("[data-action='" + campaign_id + "']");
-// 	buttons.filter('.campaign-action').hide();
-// 	buttons.filter('.start-campaign').show();
-// 	let icons = $('table').find("[data-status='" + campaign_id + "']");
-// 	icons.filter('.campaign-status').hide();
-// 	icons.filter('.stopped-status-icon').show();
-// });
+	  });
