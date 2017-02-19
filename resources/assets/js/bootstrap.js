@@ -33,7 +33,6 @@ window.axios.defaults.headers.common = {
 };
 
 require('font-awesome/css/font-awesome.css');
-require('pusher-js');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -41,9 +40,11 @@ require('pusher-js');
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from "laravel-echo"
+require('pusher-js');
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
+import Echo from "laravel-echo"
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '3253fee694d3d95ecc4b'
+});
