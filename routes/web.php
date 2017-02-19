@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('test', function(){
-	\App\Services\CampaignsManager::run();
-});
-
 // Login Redirect Route...
 Route::get('login', function() {
 	return redirect('/');
