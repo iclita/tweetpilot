@@ -15428,7 +15428,7 @@ $('.resume-campaign').click(function () {
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true;
 
-Echo.channel('campaign-started').listen('campaign.started', function (e) {
+Echo.channel('campaign-started').listen('.campaign.started', function (e) {
 	var campaign_id = e.id;
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.campaign-action').hide();
@@ -15439,7 +15439,7 @@ Echo.channel('campaign-started').listen('campaign.started', function (e) {
 	icons.filter('.running-status-icon').show();
 });
 
-Echo.channel('campaign-stopped').listen('campaign.stopped', function (e) {
+Echo.channel('campaign-stopped').listen('.campaign.stopped', function (e) {
 	var campaign_id = e.id;
 	var buttons = $('table').find("[data-action='" + campaign_id + "']");
 	buttons.filter('.stop-campaign').click();
