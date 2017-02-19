@@ -107,7 +107,7 @@ $('.resume-campaign').click(function() {
 });
 
 // Enable pusher logging - don't include this in production
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 // Instantiate pusher
 var pusher = new Pusher('3253fee694d3d95ecc4b', {
   encrypted: true
