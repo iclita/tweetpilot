@@ -75,12 +75,8 @@ class CampaignPublish implements ShouldQueue
         // Move the video to the end of the stack
         // This is done because we want to publish videos by rotation
         $video->update(['updated_at' => Carbon::now()]);
-        // Get a list of all websites
-        $websites = Website::with('tokens')->get();
         // Get the site that has the least amount of tokens
-        $website = $websites->sortBy(function ($website) {
-            return $website->tokens()->count();
-        })->first();
+        $website = Website::orderByRaw("(SELECT COUNT(*) FROM tokens WHERE tokens.id = websites.id)")->first();
         // Generate the video link with this website
         $video_link = $website->getFullUrl() . "/video/{$video->id}/preview";                
         // Compose the data to be posted
