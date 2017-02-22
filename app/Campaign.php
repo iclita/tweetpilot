@@ -375,9 +375,14 @@ class Campaign extends Model
      */
     public function shouldStop()
     {
-        return !DB::table('workers')->where('campaign_id', $this->id)
-                                    ->where('has_finished', false)
-                                    ->exists();
+        // Try to stop a campaign only if it is running
+        if ($this->isRunning()) {        
+            return !DB::table('workers')->where('campaign_id', $this->id)
+                                        ->where('has_finished', false)
+                                        ->exists();
+        }
+        // If the campaign is not running, do not stop it
+        return false;
     }
 
     /**
