@@ -306,7 +306,7 @@ class CampaignPublish implements ShouldQueue
                 throw new \Exception('Unknown campaign type!');
             }
         }
-        // Tell the world this worker has finished :)
-        event(new WorkerFinished($this->worker));
+        // Stop the current worker
+        $worker->stop();
     }
 }

@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('amapilot:publish-posts --queue=cron')
+                 ->everyTenMinutes();
+        $schedule->command('amapilot:stop-campaigns --queue=campaign-events')
                  ->everyFiveMinutes();
         $schedule->command('amapilot:delete-posts --queue=cron')
                  ->daily();
