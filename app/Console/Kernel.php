@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\PublishPosts::class,
         \App\Console\Commands\DeletePosts::class,
+        \App\Console\Commands\StopCampaigns::class,
     ];
 
     /**
