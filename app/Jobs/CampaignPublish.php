@@ -307,6 +307,6 @@ class CampaignPublish implements ShouldQueue
             }
         }
         // Stop the current worker
-        $worker->stop();
+        $this->worker->stop();
     }
 }
