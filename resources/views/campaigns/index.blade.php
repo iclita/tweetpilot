@@ -46,7 +46,7 @@
                             <th>Workers</th>
                             <th>Edit</th>
                             <th>Delete</th>
-                            <th>Last Finish</th>
+                            <th>Finished</th>
                             <th>Active</th>
                         </tr>
                         </thead>
