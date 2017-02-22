@@ -7,6 +7,7 @@ use App\Website;
 use App\Worker;
 use Redis;
 use DB;
+use Carbon\Carbon;
 
 class Campaign extends Model
 {
@@ -393,6 +394,35 @@ class Campaign extends Model
     public function isCustom()
     {
         return !empty($this->custom_message) && !empty($this->custom_link);
+    }
+
+    /**
+     * Get the time passed since this campaign finished.
+     *
+     * @return string
+     */
+    public function getLastFinish()
+    {
+        // It is not finished, so...
+        if ($this->isRunning() || $this->isPaused()) {
+            return 'N/A';
+        }
+        // Get total days passed since this campaign has finished
+        $totalDays = Carbon::now()->diffInDays($this->updated_at);
+        // If more than one day, than show how many days
+        if ($totalDays > 0) {
+            return $this->updated_at->diffForHumans();
+        }
+        // Otherwise, show a more accurate time
+        $totalMinutes = Carbon::now()->diffInMinutes($this->updated_at);
+        // Get hours
+        $hours = floor($totalMinutes/60);
+        $hours = ($hours > 0) ? "{$hours}h" : "";
+        // Get minutes
+        $minutes = $totalMinutes % 60;
+        $minutes = ($minutes > 0) ? "{$minutes}m" : "";
+        // Show final result
+        return $hours . $minutes;
     }
 
     /**
