@@ -34,8 +34,9 @@ class StopCampaignIfNecessary
         $campaign = $worker->campaign;
         // Check if campaign should be stopped
         if ($campaign->shouldStop()) {
-            // event(new CampaignStopped($campaign));
-            // $campaign->stop();
+            sleep(5);
+            event(new CampaignStopped($campaign));
+            $campaign->stop();
         }
     }
 }
